@@ -24,12 +24,14 @@
 
   #header {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 18px 32px 14px;
-    background: linear-gradient(to bottom, rgba(10,9,7,0.97) 60%, transparent);
-    display: flex; align-items: baseline; gap: 20px; pointer-events: none;
+    height: 160px;
+    background: url('HEAD.png') center top / cover no-repeat;
+    pointer-events: none;
   }
-  #header h1 { font-family: 'Cinzel', serif; font-weight: 900; font-size: 22px; letter-spacing: 0.18em; color: var(--gold); text-transform: uppercase; }
-  #header span { font-size: 13px; color: var(--text-dim); letter-spacing: 0.12em; font-style: italic; }
+  #header::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
+    background: linear-gradient(to bottom, transparent, var(--bg));
+  }
 
   #map { position: fixed; top: 0; left: 0; right: 0; bottom: 0; }
 
@@ -94,10 +96,7 @@
 </head>
 <body>
 
-<div id="header">
-  <h1>Ash Walker</h1>
-  <span>Every road has a story. Every song is a mile.</span>
-</div>
+<div id="header"></div>
 
 <div id="map"></div>
 
@@ -144,7 +143,7 @@ const CHAPTERS = [
   {id:13, season:'s1', title:'Clyde Stays Behind',      location:'Albuquerque, NM',           coords:[-106.6504,35.0844],lore:"Old friend in Albuquerque. Clyde looked at him a long time. Said: you'll find what you're after, even if you don't know what it is. Ash started the engine and left.",      yt:'https://youtu.be/41HYGjVp64g', sp:null, am:null},
   {id:14, season:'s1', title:'High Desert Prayer',      location:'New Mexico desert',          coords:[-107.8000,35.1500], lore:"Alone for the first time since Arkansas. The desert quiet was different — not empty, ceremonial. He cut the engine. Spoke out loud. To his father, or to no one.",          yt:'https://youtu.be/TTuTJUeuixY', sp:null, am:null},
   {id:15, season:'s1', title:'Arizona Burn',            location:'Flagstaff, Arizona',         coords:[-111.6513,35.1983], lore:"A hundred and five in the shade, no shade. The asphalt went soft. He didn't stop. Some things you don't survive — you just endure.",                                       yt:null, sp:null, am:null},
-  {id:16, season:'s1', title:'Ghost in the Chrome',     location:'Arizona / Nevada border',    coords:[-114.0000,35.0000], lore:"Wiping down the tank at a gas station he thought of his father's hands on the same chrome. Everything else burned. This didn't.",                                           yt:null, sp:null, am:null},
+  {id:16, season:'s1', title:'Ghost in the Chrome',     location:'Kingman, Arizona',           coords:[-114.0530,35.2100], lore:"Wiping down the tank at a gas station he thought of his father's hands on the same chrome. Everything else burned. This didn't.",                                           yt:null, sp:null, am:null},
   {id:17, season:'s1', title:'Wanted in Two States',    location:'Nevada',                     coords:[-115.1398,36.1699], lore:"Cash only. No big towns. Eyes in the mirror more than usual. It wasn't exactly a legal situation — but it wasn't exactly his fault either.",                                 yt:null, sp:null, am:null},
   {id:18, season:'s1', title:'Pacific in My Eyes',      location:'Pacific Ocean, California',  coords:[-118.4912,34.0195], lore:"He cut the engine at the edge of the continent. Waves kept coming. No end to the horizon. He'd driven the whole country to get here. He still didn't know why.",           yt:null, sp:null, am:null},
 
