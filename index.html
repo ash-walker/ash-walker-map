@@ -24,7 +24,7 @@
 
   #header {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    height: 160px;
+    height: 220px;
     background: url('HEAD.png') center top / cover no-repeat;
     pointer-events: none;
   }
@@ -198,8 +198,8 @@ const s3coords = CHAPTERS.filter(c=>c.season==='s3').map(c=>c.coords);
 const map = new mapboxgl.Map({
   container: 'map',
   style: 'mapbox://styles/mapbox/dark-v11',
-  center: [-98, 37],
-  zoom: 4.1,
+  center: [-98, 36.5],
+  zoom: 4.8,
   minZoom: 3,
   maxZoom: 14,
   projection: 'mercator'
