@@ -21,7 +21,7 @@
     --border: rgba(212, 168, 67, 0.2);
   }
   html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'EB Garamond', Georgia, serif; overflow: hidden; }
-
+ 
   #header {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     padding: 18px 32px 14px;
@@ -30,16 +30,16 @@
   }
   #header h1 { font-family: 'Cinzel', serif; font-weight: 900; font-size: 22px; letter-spacing: 0.18em; color: var(--gold); text-transform: uppercase; }
   #header span { font-size: 13px; color: var(--text-dim); letter-spacing: 0.12em; font-style: italic; }
-
+ 
   #map { position: fixed; top: 0; left: 0; right: 0; bottom: 0; }
-
+ 
   #legend {
     position: fixed; bottom: 24px; left: 24px; z-index: 100;
     display: flex; flex-direction: column; gap: 8px;
   }
   .legend-item { display: flex; align-items: center; gap: 9px; font-size: 11px; letter-spacing: 0.1em; color: var(--text-dim); font-family: 'Cinzel', serif; text-transform: uppercase; }
   .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-
+ 
   .marker { width: 12px; height: 12px; border-radius: 50%; border: 2px solid rgba(0,0,0,0.4); cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease; }
   .marker:hover { transform: scale(1.7); z-index: 10; }
   .marker.s1 { background: #D4A843; box-shadow: 0 0 6px rgba(212,168,67,0.5); }
@@ -47,7 +47,7 @@
   .marker.s3 { background: #8B3A1A; box-shadow: 0 0 6px rgba(139,58,26,0.5); }
   .marker.sfinal { background: #888; box-shadow: 0 0 5px rgba(136,136,136,0.4); }
   .marker.active { transform: scale(1.9); }
-
+ 
   #card {
     position: fixed; top: 50%; right: 28px; transform: translateY(-50%);
     z-index: 200; width: 310px;
@@ -59,7 +59,7 @@
     from { opacity: 0; transform: translateY(-50%) translateX(10px); }
     to   { opacity: 1; transform: translateY(-50%) translateX(0); }
   }
-
+ 
   #card-cover { width: 100%; aspect-ratio: 1; object-fit: cover; display: none; }
   #card-cover-placeholder {
     width: 100%; aspect-ratio: 1; background: var(--bg2);
@@ -67,13 +67,13 @@
     border-bottom: 1px solid var(--border);
   }
   #card-cover-placeholder span { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.15em; color: var(--text-dim); text-transform: uppercase; }
-
+ 
   #card-body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 9px; }
   #card-chapter { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.2em; color: var(--gold-dim); text-transform: uppercase; }
   #card-title { font-family: 'Cinzel', serif; font-size: 16px; font-weight: 700; color: var(--gold); line-height: 1.25; letter-spacing: 0.05em; }
   #card-location { font-size: 12px; color: var(--text-dim); letter-spacing: 0.08em; font-style: italic; }
   #card-lore { font-size: 13.5px; line-height: 1.65; color: var(--text); border-top: 1px solid var(--border); padding-top: 10px; margin-top: 2px; }
-
+ 
   #card-links { display: flex; gap: 8px; margin-top: 4px; }
   .card-link {
     flex: 1; padding: 7px 4px; text-align: center;
@@ -83,7 +83,7 @@
   }
   .card-link:hover { border-color: var(--gold); color: var(--gold); }
   .card-link.disabled { opacity: 0.28; pointer-events: none; }
-
+ 
   #card-close {
     position: absolute; top: 10px; right: 12px;
     background: none; border: none; color: var(--text-dim);
@@ -93,21 +93,21 @@
 </style>
 </head>
 <body>
-
+ 
 <div id="header">
   <h1>Ash Walker</h1>
   <span>Every road has a story. Every song is a mile.</span>
 </div>
-
+ 
 <div id="map"></div>
-
+ 
 <div id="legend">
   <div class="legend-item"><div class="legend-dot" style="background:#D4A843"></div>Season 1 — Ashes &amp; Asphalt</div>
   <div class="legend-item"><div class="legend-dot" style="background:#7AAECC"></div>Season 2 — Pacific Wounds</div>
   <div class="legend-item"><div class="legend-dot" style="background:#8B3A1A"></div>Season 3 — Blood Meridian Blues</div>
   <div class="legend-item"><div class="legend-dot" style="background:#888"></div>Final Act — The Long Goodbye</div>
 </div>
-
+ 
 <div id="card">
   <button id="card-close">✕</button>
   <img id="card-cover" alt="Chapter cover">
@@ -124,12 +124,12 @@
     </div>
   </div>
 </div>
-
+ 
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXNoLXdhbGtlciIsImEiOiJjbXFmbGx3bmUwZWthMzJyMWw4MGFqcDl5In0.556EtLH6w0n2MN-r0lXHsA';
-
+ 
 const CHAPTERS = [
-  {id:1,  season:'s1', title:'Ash & Gone',             location:'East Tennessee',            coords:[-82.8510,36.2044], lore:"The house was ash and a single standing chimney. He didn't cry. He went to the garage. The bike was there, under a tarp, waiting.",                                                 yt:'https://youtu.be/tRzjAOA0DXQ', sp:'https://open.spotify.com/track/5GjSpQiKbKcFbJk9Ig5hqb', am:'https://music.apple.com/ua/song/ash-gone/6776528616'},
+  {id:1,  season:'s1', title:'Ash & Gone',             location:'Greeneville, Tennessee',    coords:[-82.8310,36.1628], lore:"The house was ash and a single standing chimney. He didn't cry. He went to the garage. The bike was there, under a tarp, waiting.",                                                 yt:'https://youtu.be/tRzjAOA0DXQ', sp:'https://open.spotify.com/track/5GjSpQiKbKcFbJk9Ig5hqb', am:'https://music.apple.com/ua/song/ash-gone/6776528616'},
   {id:2,  season:'s1', title:'Walk My Walk',            location:'I-40, Tennessee',           coords:[-86.7816,36.1627], lore:"No plan. No destination. Just west, and the engine, and the first miles of a road with no end he could see.",                                                                   yt:'https://youtu.be/JT5V-V1z49Q', sp:'https://open.spotify.com/track/7bVNtjvcdkxghZcz3W3NnC', am:'https://music.apple.com/ua/song/walk-my-walk/6776528619'},
   {id:3,  season:'s1', title:'West of the Ashes',       location:'Tennessee / Arkansas border',coords:[-90.0771,35.6729], lore:"First sunrise on the flat side of the country. He exhaled for the first time in days. East was behind him. That was enough.",                                                  yt:'https://youtu.be/AN4CX92DG8k', sp:'https://open.spotify.com/track/4yNIUmxjeFqjs3atB4bTO0', am:'https://music.apple.com/ua/song/west-of-the-ashes/6776528622'},
   {id:4,  season:'s1', title:'Memphis Low',             location:'Beale Street, Memphis',     coords:[-90.0520,35.1390], lore:"Third bourbon in. Blues from every open door. He wasn't running anymore. He was looking for something without a name.",                                                        yt:'https://youtu.be/9B7jxXee3v4', sp:'https://open.spotify.com/track/1x2tq0Z53SAh47FJtkfz5z', am:'https://music.apple.com/ua/song/memphis-low/6776528623'},
@@ -138,8 +138,8 @@ const CHAPTERS = [
   {id:7,  season:'s1', title:'Old Dog, New Road',       location:'Highway 67, Arkansas',      coords:[-92.8140,34.3290], lore:"Passed an old biker with a flat. Drove past. Turned around. They changed the tire without a word. Clyde poured two cups from a thermos — as if he knew someone would stop.",  yt:'https://youtu.be/RX0C0jvUw6o', sp:'https://open.spotify.com/album/1jPWSfsIidqAW6BJDXwTms', am:null},
   {id:8,  season:'s1', title:"Clyde's Gospel",          location:'Roadside, Arkansas',        coords:[-93.5512,34.1298], lore:"Campfire. Clyde talked. Sold the Memphis house after his wife died. Bought the Harley. Rides nowhere specific, takes his time getting there. First real conversation since the war.", yt:'https://youtu.be/Q6dATFOApmw', sp:null, am:null},
   {id:9,  season:'s1', title:'Oklahoma Flatline',       location:'Oklahoma plains',            coords:[-97.5164,35.4676], lore:"The horizon went so far it looked fake. Hours without a thought. Just speed and flat earth and Clyde riding parallel — two small shapes in all that open.",                    yt:'https://youtu.be/nv64s5CKpQs', sp:null, am:null},
-  {id:10, season:'s1', title:'She Smelled Like Rain',   location:'Oklahoma highway',           coords:[-98.4075,35.6528], lore:"Rain on hot asphalt. The smell hit him like a door opening. Dana, after a shower, in a life he thought he'd burned through. He kept riding.",                                yt:'https://youtu.be/E13ZuwLh_lw', sp:null, am:null},
-  {id:11, season:'s1', title:'Route 66 Renegade',       location:'Route 66, Oklahoma',        coords:[-99.4167,35.5279], lore:"The road opened up and the bike answered. First time the whole trip the riding felt like something other than escape. It felt like itself.",                                   yt:'https://youtu.be/eafcccm-AvM', sp:null, am:null},
+  {id:10, season:'s1', title:'She Smelled Like Rain',   location:'Oklahoma highway',           coords:[-96.6500,35.4800], lore:"Rain on hot asphalt. The smell hit him like a door opening. Dana, after a shower, in a life he thought he'd burned through. He kept riding.",                                yt:'https://youtu.be/E13ZuwLh_lw', sp:null, am:null},
+  {id:11, season:'s1', title:'Route 66 Renegade',       location:'Route 66, Oklahoma',        coords:[-96.1100,35.5000], lore:"The road opened up and the bike answered. First time the whole trip the riding felt like something other than escape. It felt like itself.",                                   yt:'https://youtu.be/eafcccm-AvM', sp:null, am:null},
   {id:12, season:'s1', title:'Bar Fight Blues',         location:'Oklahoma City',              coords:[-97.5200,35.4700], lore:"He wasn't looking for trouble. When trouble found Clyde, Ash didn't think. Three moves, fast, clean. 'Could've walked away,' Clyde said. 'Yeah,' said Ash.",                yt:'https://youtu.be/HztZgDAdw-g', sp:null, am:null},
   {id:13, season:'s1', title:'Clyde Stays Behind',      location:'Albuquerque, NM',           coords:[-106.6504,35.0844],lore:"Old friend in Albuquerque. Clyde looked at him a long time. Said: you'll find what you're after, even if you don't know what it is. Ash started the engine and left.",      yt:'https://youtu.be/41HYGjVp64g', sp:null, am:null},
   {id:14, season:'s1', title:'High Desert Prayer',      location:'New Mexico desert',          coords:[-105.8701,34.5199], lore:"Alone for the first time since Arkansas. The desert quiet was different — not empty, ceremonial. He cut the engine. Spoke out loud. To his father, or to no one.",          yt:'https://youtu.be/TTuTJUeuixY', sp:null, am:null},
@@ -147,7 +147,7 @@ const CHAPTERS = [
   {id:16, season:'s1', title:'Ghost in the Chrome',     location:'Arizona / Nevada border',    coords:[-114.0000,35.0000], lore:"Wiping down the tank at a gas station he thought of his father's hands on the same chrome. Everything else burned. This didn't.",                                           yt:null, sp:null, am:null},
   {id:17, season:'s1', title:'Wanted in Two States',    location:'Nevada',                     coords:[-115.1398,36.1699], lore:"Cash only. No big towns. Eyes in the mirror more than usual. It wasn't exactly a legal situation — but it wasn't exactly his fault either.",                                 yt:null, sp:null, am:null},
   {id:18, season:'s1', title:'Pacific in My Eyes',      location:'Pacific Ocean, California',  coords:[-118.4912,34.0195], lore:"He cut the engine at the edge of the continent. Waves kept coming. No end to the horizon. He'd driven the whole country to get here. He still didn't know why.",           yt:null, sp:null, am:null},
-
+ 
   {id:19, season:'s2', title:'Los Angeles Lied',        location:'Los Angeles',                coords:[-118.2437,34.0522], lore:"The city was loud and indifferent and exactly what it was. He'd expected something. There was nothing to expect.",                                                           yt:null, sp:null, am:null},
   {id:20, season:'s2', title:'Dana',                    location:'Los Angeles — café',         coords:[-118.2600,34.0600], lore:"Through a café window. She was laughing. He decided not to disturb that. Rode away. She heard the engine and turned too late.",                                              yt:null, sp:null, am:null},
   {id:21, season:'s2', title:"Another Man's Sky",       location:'Los Angeles',                coords:[-118.2800,34.0400], lore:"He drank alone and decided she was happy. Across the city she stood on the street watching him go.",                                                                        yt:null, sp:null, am:null},
@@ -167,35 +167,35 @@ const CHAPTERS = [
   {id:35, season:'s2', title:'Who Burned My House',     location:'Road east',                  coords:[-110.0000,35.0000], lore:"Not an accident. Not a coincidence. Someone knew when he was coming home. Someone made sure there was nothing to come back to.",                                            yt:null, sp:null, am:null},
   {id:36, season:'s2', title:'Eastbound Fury',          location:'I-40 east',                  coords:[-105.0000,35.2000], lore:"He turned the bike around. Three thousand miles of road in reverse. He knew what he was riding toward now.",                                                                yt:null, sp:null, am:null},
   {id:37, season:'s2', title:"Dana, Don't Wait",        location:'Last call',                  coords:[-97.5164,35.4676],  lore:"Last message. He didn't know if she'd hear it. He said it anyway — to the voicemail, to the highway, to the dark.",                                                       yt:null, sp:null, am:null},
-
-  {id:38, season:'s3', title:'Coming Home Wrong',       location:'East Tennessee',             coords:[-82.8510,36.2044],  lore:"Same streets. Wrong town. Or the same town and a different man.",                                                                                                           yt:null, sp:null, am:null},
-  {id:39, season:'s3', title:'The Name I Got',          location:'Home town',                  coords:[-82.8600,36.2100],  lore:"He had the name. He sat with it a long time before doing anything with it.",                                                                                               yt:null, sp:null, am:null},
-  {id:40, season:'s3', title:'Brother by Blood',        location:'Home town',                  coords:[-82.8700,36.2000],  lore:"Same unit. Same mud. Same fire under different skies. And he burned the house.",                                                                                           yt:null, sp:null, am:null},
-  {id:41, season:'s3', title:'War Makes Monsters',      location:'Flashback',                  coords:[-82.8400,36.2200],  lore:"There was a reason. There's always a reason. That doesn't make it right.",                                                                                                 yt:null, sp:null, am:null},
-  {id:42, season:'s3', title:'Forgive or Burn',         location:'Church',                     coords:[-82.8550,36.2050],  lore:"He sat in the back pew alone. The choice was real. Both doors were open.",                                                                                                 yt:null, sp:null, am:null},
-  {id:43, season:'s3', title:"The Preacher's Son",      location:'Home town',                  coords:[-82.8450,36.1950],  lore:"The man who lit the match had a father who asked God for forgiveness every Sunday. Ash didn't know what to do with that.",                                                 yt:null, sp:null, am:null},
-  {id:44, season:'s3', title:"Justice Ain't Clean",     location:'Courthouse',                 coords:[-82.8600,36.2050],  lore:"He acted. Not the way anyone expected. Not the way movies taught.",                                                                                                        yt:null, sp:null, am:null},
-  {id:45, season:'s3', title:'Courthouse Steps',        location:'Courthouse',                 coords:[-82.8650,36.2000],  lore:"Witness, not defendant. The law had its version. He had his.",                                                                                                             yt:null, sp:null, am:null},
+ 
+  {id:38, season:'s3', title:'Coming Home Wrong',       location:'Greeneville, Tennessee',     coords:[-82.8310,36.1628],  lore:"Same streets. Wrong town. Or the same town and a different man.",                                                                                                           yt:null, sp:null, am:null},
+  {id:39, season:'s3', title:'The Name I Got',          location:'Home town',                  coords:[-82.8400,36.1700],  lore:"He had the name. He sat with it a long time before doing anything with it.",                                                                                               yt:null, sp:null, am:null},
+  {id:40, season:'s3', title:'Brother by Blood',        location:'Home town',                  coords:[-82.8500,36.1600],  lore:"Same unit. Same mud. Same fire under different skies. And he burned the house.",                                                                                           yt:null, sp:null, am:null},
+  {id:41, season:'s3', title:'War Makes Monsters',      location:'Flashback',                  coords:[-82.8200,36.1750],  lore:"There was a reason. There's always a reason. That doesn't make it right.",                                                                                                 yt:null, sp:null, am:null},
+  {id:42, season:'s3', title:'Forgive or Burn',         location:'Church',                     coords:[-82.8350,36.1650],  lore:"He sat in the back pew alone. The choice was real. Both doors were open.",                                                                                                 yt:null, sp:null, am:null},
+  {id:43, season:'s3', title:"The Preacher's Son",      location:'Home town',                  coords:[-82.8250,36.1580],  lore:"The man who lit the match had a father who asked God for forgiveness every Sunday. Ash didn't know what to do with that.",                                                 yt:null, sp:null, am:null},
+  {id:44, season:'s3', title:"Justice Ain't Clean",     location:'Courthouse',                 coords:[-82.8400,36.1650],  lore:"He acted. Not the way anyone expected. Not the way movies taught.",                                                                                                        yt:null, sp:null, am:null},
+  {id:45, season:'s3', title:'Courthouse Steps',        location:'Courthouse',                 coords:[-82.8450,36.1600],  lore:"Witness, not defendant. The law had its version. He had his.",                                                                                                             yt:null, sp:null, am:null},
   {id:46, season:'s3', title:'Clyde Rides Again',       location:'Road',                       coords:[-106.6504,35.0844], lore:"He'd seen it in the news. Drove three days without stopping to get there. Said it like it was nothing.",                                                                  yt:null, sp:null, am:null},
-  {id:47, season:'s3', title:'The Grave I Dug',         location:'Cemetery',                   coords:[-82.8500,36.2150],  lore:"Not a metaphor. He stood over a real grave and buried what he could. The wrist tattoo barely visible at the edge of his sleeve.",                                         yt:null, sp:null, am:null},
-  {id:48, season:'s3', title:'Dana Finds Him',          location:'Home town',                  coords:[-82.8510,36.2044],  lore:"No invitation. She just came. He opened the door and couldn't say anything for a long time.",                                                                              yt:null, sp:null, am:null},
-  {id:49, season:'s3', title:'Two Broken Things',       location:'Motel',                      coords:[-82.8600,36.2100],  lore:"Together. Neither of them fixed. That turned out to be enough to start with.",                                                                                             yt:null, sp:null, am:null},
-  {id:50, season:'s3', title:'Rebuild or Ride',         location:'Home town',                  coords:[-82.8700,36.2000],  lore:"Stay and build something. Or go and be what the road made him. He hadn't decided yet.",                                                                                   yt:null, sp:null, am:null},
-  {id:51, season:'s3', title:'Ashley Soul',             location:"Father's grave",             coords:[-82.8400,36.2200],  lore:"He said his real name out loud at his father's grave. First time since before the war. It fit differently now.",                                                           yt:null, sp:null, am:null},
-  {id:52, season:'s3', title:'Last Fire West',          location:'Sunset',                     coords:[-82.8550,36.2050],  lore:"The answer to the whole season. The sun went down. He watched it go.",                                                                                                     yt:null, sp:null, am:null},
-
+  {id:47, season:'s3', title:'The Grave I Dug',         location:'Cemetery',                   coords:[-82.8300,36.1800],  lore:"Not a metaphor. He stood over a real grave and buried what he could. The wrist tattoo barely visible at the edge of his sleeve.",                                         yt:null, sp:null, am:null},
+  {id:48, season:'s3', title:'Dana Finds Him',          location:'Home town',                  coords:[-82.8310,36.1628],  lore:"No invitation. She just came. He opened the door and couldn't say anything for a long time.",                                                                              yt:null, sp:null, am:null},
+  {id:49, season:'s3', title:'Two Broken Things',       location:'Motel',                      coords:[-82.8400,36.1700],  lore:"Together. Neither of them fixed. That turned out to be enough to start with.",                                                                                             yt:null, sp:null, am:null},
+  {id:50, season:'s3', title:'Rebuild or Ride',         location:'Home town',                  coords:[-82.8500,36.1600],  lore:"Stay and build something. Or go and be what the road made him. He hadn't decided yet.",                                                                                   yt:null, sp:null, am:null},
+  {id:51, season:'s3', title:'Ashley Soul',             location:"Father's grave",             coords:[-82.8200,36.1750],  lore:"He said his real name out loud at his father's grave. First time since before the war. It fit differently now.",                                                           yt:null, sp:null, am:null},
+  {id:52, season:'s3', title:'Last Fire West',          location:'Sunset',                     coords:[-82.8350,36.1650],  lore:"The answer to the whole season. The sun went down. He watched it go.",                                                                                                     yt:null, sp:null, am:null},
+ 
   {id:53, season:'sfinal', title:"Clyde's Last Ride",  location:'The road',                   coords:[-97.0000,35.5000],  lore:"Dignified. In motion. The way he always said he wanted to go.",                                                                                                            yt:null, sp:null, am:null},
   {id:54, season:'sfinal', title:"Dana's Song",         location:'—',                          coords:[-118.2437,34.0522], lore:"The only track from her point of view. Everything she never said, finally said.",                                                                                          yt:null, sp:null, am:null},
-  {id:55, season:'sfinal', title:'The Bike Speaks',     location:'—',                          coords:[-82.8510,36.2044],  lore:"The motorcycle that carried him across the country. Its final word.",                                                                                                      yt:null, sp:null, am:null},
+  {id:55, season:'sfinal', title:'The Bike Speaks',     location:'—',                          coords:[-82.8310,36.1628],  lore:"The motorcycle that carried him across the country. Its final word.",                                                                                                      yt:null, sp:null, am:null},
   {id:56, season:'sfinal', title:'58 Miles to Nowhere', location:'The road',                   coords:[-100.0000,36.0000], lore:"Alone again. But not the same alone. Something has changed in the frame.",                                                                                                yt:null, sp:null, am:null},
-  {id:57, season:'sfinal', title:'Ash Walker (Reprise)',location:'—',                          coords:[-86.7816,36.1627],  lore:"The beginning, heard again from the end of the road. Same words, different weight.",                                                                                       yt:null, sp:null, am:null},
+  {id:57, season:'sfinal', title:'Ash Walker (Reprise)',location:'—',                          coords:[-82.8310,36.1628],  lore:"The beginning, heard again from the end of the road. Same words, different weight.",                                                                                       yt:null, sp:null, am:null},
   {id:58, season:'sfinal', title:'Still Walking',       location:'—',                          coords:[-90.0000,35.5000],  lore:"The road doesn't end. It just continues without us watching.",                                                                                                            yt:null, sp:null, am:null},
 ];
-
+ 
 const s1coords = CHAPTERS.filter(c=>c.season==='s1').map(c=>c.coords);
 const s2coords = CHAPTERS.filter(c=>c.season==='s2').map(c=>c.coords);
 const s3coords = CHAPTERS.filter(c=>c.season==='s3').map(c=>c.coords);
-
+ 
 const map = new mapboxgl.Map({
   container: 'map',
   style: 'mapbox://styles/mapbox/dark-v11',
@@ -205,7 +205,7 @@ const map = new mapboxgl.Map({
   maxZoom: 14,
   projection: 'mercator'
 });
-
+ 
 map.on('load', () => {
   const addRoute = (id, coords, color, opacity) => {
     map.addSource(id, {type:'geojson', data:{type:'Feature', geometry:{type:'LineString', coordinates:coords}}});
@@ -214,9 +214,9 @@ map.on('load', () => {
   addRoute('route-s1', s1coords, '#D4A843', 0.45);
   // addRoute('route-s2' — hidden
   // addRoute('route-s3' — hidden
-
+ 
   let activeMarker = null;
-
+ 
   CHAPTERS.forEach(ch => {
     if (ch.season !== 's1') return; // only Season 1 for now
     const el = document.createElement('div');
@@ -230,46 +230,46 @@ map.on('load', () => {
     });
     new mapboxgl.Marker({element:el}).setLngLat(ch.coords).addTo(map);
   });
-
+ 
   map.on('click', () => {
     closeCard();
     if (activeMarker) { activeMarker.classList.remove('active'); activeMarker = null; }
   });
 });
-
+ 
 const card = document.getElementById('card');
 const cardCover = document.getElementById('card-cover');
 const cardPlaceholder = document.getElementById('card-cover-placeholder');
-
+ 
 function openCard(ch) {
   document.getElementById('card-chapter').textContent = `Chapter ${ch.id} — ${seasonLabel(ch.season)}`;
   document.getElementById('card-title').textContent = ch.title;
   document.getElementById('card-location').textContent = ch.location;
   document.getElementById('card-lore').textContent = ch.lore;
-
+ 
   const imgPath = `covers/ch${String(ch.id).padStart(2,'0')}.jpg`;
   cardCover.onload = () => { cardCover.style.display='block'; cardPlaceholder.style.display='none'; };
   cardCover.onerror = () => { cardCover.style.display='none'; cardPlaceholder.style.display='flex'; };
   cardCover.src = imgPath;
-
+ 
   setLink('link-yt', ch.yt);
   setLink('link-sp', ch.sp);
   setLink('link-am', ch.am);
   card.classList.add('visible');
 }
-
+ 
 function setLink(id, url) {
   const el = document.getElementById(id);
   if (url) { el.href=url; el.classList.remove('disabled'); }
   else { el.href='#'; el.classList.add('disabled'); }
 }
-
+ 
 function closeCard() { card.classList.remove('visible'); }
-
+ 
 function seasonLabel(s) {
   return {s1:'Ashes & Asphalt', s2:'Pacific Wounds', s3:'Blood Meridian Blues', sfinal:'The Long Goodbye'}[s]||'';
 }
-
+ 
 document.getElementById('card-close').addEventListener('click', () => {
   closeCard();
   document.querySelectorAll('.marker.active').forEach(m=>m.classList.remove('active'));
