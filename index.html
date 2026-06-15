@@ -212,12 +212,13 @@ map.on('load', () => {
     map.addLayer({id, type:'line', source:id, paint:{'line-color':color,'line-width':1.5,'line-opacity':opacity,'line-dasharray':[3,2]}});
   };
   addRoute('route-s1', s1coords, '#D4A843', 0.45);
-  addRoute('route-s2', s2coords, '#7AAECC', 0.35);
-  addRoute('route-s3', s3coords, '#8B3A1A', 0.35);
+  // addRoute('route-s2' — hidden
+  // addRoute('route-s3' — hidden
 
   let activeMarker = null;
 
   CHAPTERS.forEach(ch => {
+    if (ch.season !== 's1') return; // only Season 1 for now
     const el = document.createElement('div');
     el.className = `marker ${ch.season}`;
     el.addEventListener('click', e => {
