@@ -216,7 +216,7 @@ const s1coords = CHAPTERS.filter(c=>c.season==='s1').map(c=>c.coords);
 const s2coords = CHAPTERS.filter(c=>c.season==='s2').map(c=>c.coords);
 const s3coords = CHAPTERS.filter(c=>c.season==='s3').map(c=>c.coords);
 
-const map = new mapboxgl.Map({ container: 'map', style: 'mapbox://styles/mapbox/dark-v11', center: [-91.1500,34.7800], zoom: 4.0, minZoom: 3, maxZoom: 14, projection: 'mercator' });
+const map = new mapboxgl.Map({ container: 'map', style: 'mapbox://styles/mapbox/dark-v11', center: [-91.1500,34.7800], zoom: 3.8, minZoom: 3, maxZoom: 14, projection: 'mercator' });
 
 map.on('load', () => {
   const addRoute = (id, coords, color, opacity) => {
