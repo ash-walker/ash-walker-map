@@ -48,6 +48,9 @@
   .marker.s2 { background: #7AAECC; box-shadow: 0 0 6px rgba(122,174,204,0.5); }
   .marker.s3 { background: #8B3A1A; box-shadow: 0 0 6px rgba(139,58,26,0.5); }
   .marker.sfinal { background: #888; box-shadow: 0 0 5px rgba(136,136,136,0.4); }
+  .marker.s1.pulse {
+    animation: pulse 1.8s ease-in-out infinite;
+  }
   .marker.active { transform: scale(1.9); }
 
   #card {
@@ -218,10 +221,11 @@ map.on('load', () => {
   CHAPTERS.forEach(ch => {
     if (ch.season !== 's1') return; // only Season 1 for now
     const el = document.createElement('div');
-    el.className = `marker ${ch.season}`;
+    el.className = `marker ${ch.season}${ch.id === 1 ? ' pulse' : ''}`;
     el.addEventListener('click', e => {
       e.stopPropagation();
       if (activeMarker) activeMarker.classList.remove('active');
+      el.classList.remove('pulse');
       el.classList.add('active');
       activeMarker = el;
       openCard(ch, e);
