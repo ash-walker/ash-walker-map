@@ -222,22 +222,22 @@ map.on('load', () => {
 
   let activeMarker = null;
 
+  const markerEls = {};
   CHAPTERS.forEach(ch => {
-    if (ch.season !== 's1') return; // only Season 1 for now
+    if (ch.season !== 's1') return;
     const el = document.createElement('div');
     el.className = `marker ${ch.season}${ch.id === 1 ? ' start pulse' : ''}`;
+    markerEls[ch.id] = el;
     el.addEventListener('click', e => {
       e.stopPropagation();
       if (activeMarker) activeMarker.classList.remove('active');
       el.classList.remove('pulse');
       el.classList.add('active');
       activeMarker = el;
-      // Pulse next marker
-      const nextMarker = document.querySelector(`.marker-ch${ch.id + 1}`);
-      if (nextMarker) nextMarker.classList.add('pulse');
+      const next = markerEls[ch.id + 1];
+      if (next) next.classList.add('pulse');
       openCard(ch, e);
     });
-    el.classList.add(`marker-ch${ch.id}`);
     new mapboxgl.Marker({element:el}).setLngLat(ch.coords).addTo(map);
   });
 
