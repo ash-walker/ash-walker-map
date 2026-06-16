@@ -216,10 +216,6 @@ const s2coords = CHAPTERS.filter(c=>c.season==='s2').map(c=>c.coords);
 const s3coords = CHAPTERS.filter(c=>c.season==='s3').map(c=>c.coords);
 
 const map = new mapboxgl.Map({
-  let activeMarker = null; 
-const markerEls = {};
-
-const map = new mapboxgl.Map({
   container: 'map',
   style: 'mapbox://styles/mapbox/dark-v11',
   center: [-98, 36.5],
@@ -229,48 +225,39 @@ const map = new mapboxgl.Map({
   projection: 'mercator'
 });
 
-function addRoute(id, coords, color, opacity) {
-  map.addSource(id, {
-    type: 'geojson', 
-    data: { type: 'Feature', geometry: { type: 'LineString', coordinates: coords } }
-  });
-  map.addLayer({
-    id, 
-    type: 'line', 
-    source: id, 
-    paint: { 'line-color': color, 'line-width': 1.5, 'line-opacity': opacity, 'line-dasharray': [3, 2] }
-  });
-}
-
 map.on('load', () => {
+  const addRoute = (id, coords, color, opacity) => {
+    map.addSource(id, {type:'geojson', data:{type:'Feature', geometry:{type:'LineString', coordinates:coords}}});
+    map.addLayer({id, type:'line', source:id, paint:{'line-color':color,'line-width':1.5,'line-opacity':opacity,'line-dasharray':[3,2]}});
+  };
   addRoute('route-s1', s1coords, '#D4A843', 0.45);
+  // addRoute('route-s2' — hidden
+  // addRoute('route-s3' — hidden
 
+  let activeMarker = null;
+
+  const markerEls = {};
   CHAPTERS.forEach(ch => {
     if (ch.season !== 's1') return;
-
     const el = document.createElement('div');
     el.className = `marker ${ch.season}${ch.id === 1 ? ' start pulse' : ''}`;
     markerEls[ch.id] = el;
-
     el.addEventListener('click', e => {
-      e.stopPropagation(); 
-      
+      e.stopPropagation();
       if (activeMarker) activeMarker.classList.remove('active');
       el.classList.remove('pulse');
       el.classList.add('active');
       activeMarker = el;
-
       const next = markerEls[ch.id + 1];
       if (next) next.classList.add('pulse');
-
       openCard(ch, e);
     });
-
-    new mapboxgl.Marker({ element: el }).setLngLat(ch.coords).addTo(map);
+    new mapboxgl.Marker({element:el}).setLngLat(ch.coords).addTo(map);
   });
 
   map.on('click', () => {
     closeCard();
+    if (activeMarker) { activeMarker.classList.remove('active'); activeMarker = null; }
   });
 });
 
@@ -284,7 +271,7 @@ function openCard(ch, e) {
   document.getElementById('card-location').textContent = ch.location;
   document.getElementById('card-lore').textContent = ch.lore;
 
-  const imgPath = `covers/ch${String(ch.id).padStart(2, '0')}.jpg`;
+  const imgPath = `covers/ch${String(ch.id).padStart(2,'0')}.jpg`;
   cardCover.onload = () => { cardCover.style.display='block'; cardPlaceholder.style.display='none'; };
   cardCover.onerror = () => { cardCover.style.display='none'; cardPlaceholder.style.display='flex'; };
   cardCover.src = imgPath;
@@ -293,6 +280,7 @@ function openCard(ch, e) {
   setLink('link-sp', ch.sp);
   setLink('link-am', ch.am);
 
+  // Position card near marker, below header
   const headerH = document.getElementById('header').offsetHeight;
   const cardW = Math.max(260, Math.min(340, window.innerWidth * 0.22));
   const cardH = 480;
@@ -303,8 +291,11 @@ function openCard(ch, e) {
   let left = clickX + margin;
   let top = clickY - cardH / 2;
 
+  // Don't go off right edge
   if (left + cardW > window.innerWidth - margin) left = clickX - cardW - margin;
+  // Don't go above header
   if (top < headerH + margin) top = headerH + margin;
+  // Don't go off bottom
   if (top + cardH > window.innerHeight - margin) top = window.innerHeight - cardH - margin;
 
   card.style.left = left + 'px';
@@ -316,29 +307,19 @@ function openCard(ch, e) {
 
 function setLink(id, url) {
   const el = document.getElementById(id);
-  if (url) { el.href = url; el.classList.remove('disabled'); }
-  else { el.href = '#'; el.classList.add('disabled'); }
+  if (url) { el.href=url; el.classList.remove('disabled'); }
+  else { el.href='#'; el.classList.add('disabled'); }
 }
 
-function closeCard() { 
-  card.classList.remove('visible'); 
-  if (activeMarker) {
-    activeMarker.classList.remove('active');
-    activeMarker = null;
-  }
-}
+function closeCard() { card.classList.remove('visible'); }
 
 function seasonLabel(s) {
-  return { s1: 'Ashes & Asphalt', s2: 'Pacific Wounds', s3: 'Blood Meridian Blues', sfinal: 'The Long Goodbye' }[s] || '';
+  return {s1:'Ashes & Asphalt', s2:'Pacific Wounds', s3:'Blood Meridian Blues', sfinal:'The Long Goodbye'}[s]||'';
 }
 
-document.getElementById('header').addEventListener('click', e => {
-  e.stopPropagation(); 
-});
-
-document.getElementById('card-close').addEventListener('click', (e) => {
-  e.stopPropagation();
+document.getElementById('card-close').addEventListener('click', () => {
   closeCard();
+  document.querySelectorAll('.marker.active').forEach(m=>m.classList.remove('active'));
 });
 </script>
 </body>
