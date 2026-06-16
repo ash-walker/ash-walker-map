@@ -42,8 +42,7 @@
   .legend-item { display: flex; align-items: center; gap: 9px; font-size: 11px; letter-spacing: 0.1em; color: var(--text-dim); font-family: 'Cinzel', serif; text-transform: uppercase; }
   .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 
-  .marker { width: 12px; height: 12px; border-radius: 50%; border: 2px solid rgba(0,0,0,0.4); cursor: pointer; position: relative; transition: transform 0.15s ease, box-shadow 0.15s ease; }
-  .marker::before { content: ''; position: absolute; top: 50%; left: 50%; width: 44px; height: 44px; transform: translate(-50%, -50%); background: transparent; }
+  .marker { width: 44px; height: 44px; border-radius: 50%; border: 16px solid transparent; background-clip: padding-box; cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease; position: absolute; }
   .marker:hover { transform: scale(1.7); z-index: 10; }
   .marker.s1 { background: #D4A843; box-shadow: 0 0 6px rgba(212,168,67,0.5); }
   .marker.s2 { background: #7AAECC; box-shadow: 0 0 6px rgba(122,174,204,0.5); }
