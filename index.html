@@ -261,6 +261,10 @@ map.on('load', () => {
   });
 });
 
+// Создаем скрытый плеер для фоновой музыки
+const audioPlayer = new Audio();
+audioPlayer.loop = true; // Включаем бесконечный повтор (зацикливание) без пауз
+ 
 const card = document.getElementById('card');
 const cardCover = document.getElementById('card-cover');
 const cardPlaceholder = document.getElementById('card-cover-placeholder');
@@ -303,6 +307,27 @@ function openCard(ch, e) {
   card.style.right = 'auto';
 
   card.classList.add('visible');
+
+  // Автоматически формируем путь к файлу в папке audio (например, audio/ch01.mp3)
+  const trackPath = `audio/ch${String(ch.id).padStart(2, '0')}.mp3`;
+  
+  // Создаем временную проверку, есть ли вообще файл для этой главы
+  const checkAudio = new Audio(trackPath);
+  
+  checkAudio.addEventListener('canplaythrough', () => {
+    // Если браузер подтвердил, что файл успешно найден и готов играть:
+    if (audioPlayer.src !== window.location.origin + '/' + trackPath) {
+      audioPlayer.src = trackPath;
+      audioPlayer.play().catch(err => console.log("Автозвук заблокирован до первого клика:", err));
+    }
+  });
+
+  checkAudio.addEventListener('error', () => {
+    // Если файла еще нет в папке (например, главы 16, 17, 18), просто плавно глушим плеер
+    audioPlayer.pause();
+    audioPlayer.src = "";
+  });
+ 
 }
 
 function setLink(id, url) {
@@ -311,7 +336,13 @@ function setLink(id, url) {
   else { el.href='#'; el.classList.add('disabled'); }
 }
 
-function closeCard() { card.classList.remove('visible'); }
+function closeCard() { 
+  card.classList.remove('visible'); 
+  
+  // Останавливаем музыку и сбрасываем плеер при закрытии карточки
+  audioPlayer.pause();
+  audioPlayer.src = ""; 
+}
 
 function seasonLabel(s) {
   return {s1:'Ashes & Asphalt', s2:'Pacific Wounds', s3:'Blood Meridian Blues', sfinal:'The Long Goodbye'}[s]||'';
