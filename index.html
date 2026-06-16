@@ -26,7 +26,7 @@
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     height: 16.25vw;
     background: url('HEAD.png') left top / cover no-repeat;
-    pointer-events: none;
+    pointer-events: auto; cursor: pointer;
   }
   #header::after {
     content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
@@ -102,7 +102,7 @@
 </head>
 <body>
 
-<div id="header"></div>
+<a href="https://www.youtube.com/@AIshWalker" target="_blank" id="header"></a>
 
 <div id="map"></div>
 
@@ -232,8 +232,12 @@ map.on('load', () => {
       el.classList.remove('pulse');
       el.classList.add('active');
       activeMarker = el;
+      // Pulse next marker
+      const nextMarker = document.querySelector(`.marker-ch${ch.id + 1}`);
+      if (nextMarker) nextMarker.classList.add('pulse');
       openCard(ch, e);
     });
+    el.classList.add(`marker-ch${ch.id}`);
     new mapboxgl.Marker({element:el}).setLngLat(ch.coords).addTo(map);
   });
 
