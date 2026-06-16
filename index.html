@@ -98,6 +98,20 @@
     font-size: 16px; cursor: pointer; line-height: 1; padding: 4px; z-index: 10;
   }
   #card-close:hover { color: var(--gold); }
+
+  @media (max-width: 600px) {
+    #header { height: 22vw; }
+    #card {
+      position: fixed !important;
+      left: 0 !important; right: 0 !important; bottom: 0 !important; top: auto !important;
+      width: 100% !important; max-width: 100% !important;
+      max-height: 65vh; overflow-y: auto;
+      border-radius: 12px 12px 0 0;
+    }
+    #card-cover, #card-cover-placeholder { aspect-ratio: 16/9; }
+    #legend { display: none; }
+    .card-link { font-size: 11px; padding: 10px 4px; }
+  }
 </style>
 </head>
 <body>
