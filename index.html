@@ -393,7 +393,7 @@ function openCard(ch, e) {
   // Position card near marker, below header
   const headerH = document.getElementById('header').offsetHeight;
   const cardW = Math.max(260, Math.min(340, window.innerWidth * 0.22));
-  const cardH = 480;
+  const cardH = Math.min(card.scrollHeight || 560, window.innerHeight - headerH - margin * 2);
   const margin = 16;
   const clickX = e.clientX;
   const clickY = e.clientY;
@@ -406,7 +406,8 @@ function openCard(ch, e) {
   // Don't go above header
   if (top < headerH + margin) top = headerH + margin;
   // Don't go off bottom
-  if (top + cardH > window.innerHeight - margin) top = window.innerHeight - cardH - margin;
+  if (top + cardH > window.innerHeight - margin) top = window.innerHeight - cardH - margin; 
+  if (top < headerH + margin) top = headerH + margin;
 
   card.style.left = left + 'px';
   card.style.top = top + 'px';
