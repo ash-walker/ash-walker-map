@@ -130,11 +130,11 @@
 
 <div id="card">
   <button id="card-close">✕</button>
-  <img id="card-cover" alt="Chapter cover">
+  <a id="card-cover-link" target="_blank"><img id="card-cover" alt="Chapter cover"></a>
   <div id="card-cover-placeholder"><span>Cover art coming soon</span></div>
   <div id="card-body">
     <div id="card-chapter"></div>
-    <div id="card-title"></div>
+    <a id="card-title" target="_blank" style="text-decoration:none;"></a>
     <div id="card-location"></div>
     <div id="card-lore"></div>
     <div id="card-links">
@@ -274,6 +274,13 @@ function openCard(ch, e) {
   cardCover.src = imgPath;
 
   setLink('link-yt', ch.yt);
+  const ytUrl = ch.yt || null;
+  const coverLink = document.getElementById('card-cover-link');
+  const titleEl = document.getElementById('card-title');
+  coverLink.href = ytUrl || '#';
+  coverLink.style.pointerEvents = ytUrl ? 'auto' : 'none';
+  titleEl.href = ytUrl || '#';
+  titleEl.style.pointerEvents = ytUrl ? 'auto' : 'none';
   setLink('link-sp', ch.sp);
   setLink('link-am', ch.am);
 
