@@ -442,10 +442,11 @@ function openCard(ch, e) {
   const checkAudio = new Audio(trackPath);
   
   checkAudio.addEventListener('canplaythrough', () => {
-    // Если браузер подтвердил, что файл успешно найден и готов играть:
     if (audioPlayer.src !== window.location.origin + '/' + trackPath) {
       audioPlayer.src = trackPath;
-      audioPlayer.play().catch(err => console.log("Автозвук заблокирован до первого клика:", err));
+      setTimeout(() => {
+        audioPlayer.play().catch(err => console.log("Автозвук заблокирован до первого клика:", err));
+      }, 2000);
     }
   });
 
