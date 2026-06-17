@@ -188,13 +188,14 @@
   <div id="card-cover-placeholder"><span>Cover art coming soon</span></div>
   <div id="card-nav">
     <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-  <span style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.15em;color:var(--text-dim)">PREV</span>
- <button class="nav-btn" id="btn-prev" title="Previous chapter"><span class="nav-arrow">&#8592;</span></button>
-<div id="card-nav-chapter"></div>
-<div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-  <span style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.15em;color:var(--text-dim)">NEXT</span>
-  <button class="nav-btn" id="btn-next" title="Next chapter"><span class="nav-arrow">&#8594;</span></button>
-</div>
+      <span style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.15em;color:var(--text-dim)">PREV</span>
+      <button class="nav-btn" id="btn-prev" title="Previous chapter"><span class="nav-arrow">&#8592;</span></button>
+    </div>
+    <div id="card-nav-chapter"></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+      <span style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.15em;color:var(--text-dim)">NEXT</span>
+      <button class="nav-btn" id="btn-next" title="Next chapter"><span class="nav-arrow">&#8594;</span></button>
+    </div>
   </div>
   <div id="card-body">
     <div id="card-chapter"></div>
@@ -295,10 +296,12 @@ map.on('load', () => {
     { season:'s3', color:'#8B3A1A', label:'Season 3 — Blood Meridian Blues' },
     { season:'sfinal', color:'#888', label:'Final Act — The Long Goodbye' },
   ];
-  const activeSeason = [...new Set(CHAPTERS.filter(c => c.season !== 's1').map(c => c.season))];
+  const seasonsOnMap = [...new Set(CHAPTERS.filter(c => c.season === 's1').map(c => c.season))];
+  // Add other seasons only when they have markers rendered on map (edit this array when adding S2/S3 markers)
+  // e.g. seasonsOnMap.push('s2');
   const legend = document.getElementById('legend');
   legendDefs.forEach(d => {
-    if (d.season === 's1' || activeSeason.includes(d.season)) {
+    if (seasonsOnMap.includes(d.season)) {
       legend.innerHTML += `<div class="legend-item"><div class="legend-dot" style="background:${d.color}"></div>${d.label}</div>`;
     }
   });
