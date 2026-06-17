@@ -399,8 +399,8 @@ function openCard(ch, e) {
   // Position card near marker, below header
   const headerH = document.getElementById('header').offsetHeight;
   const cardW = Math.max(260, Math.min(340, window.innerWidth * 0.22));
-  const cardH = Math.min(card.scrollHeight || 560, window.innerHeight - headerH - margin * 2);
   const margin = 16;
+  const cardH = Math.min(card.scrollHeight || 560, window.innerHeight - headerH - margin * 2);
   const clickX = e.clientX;
   const clickY = e.clientY;
 
