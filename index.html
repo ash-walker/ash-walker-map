@@ -347,6 +347,9 @@ map.on('load', () => {
       if (next) next.classList.add('pulse');
       currentChId = ch.id;
       updateAshRider(ch.id);
+      const rev = new Audio('rev.mp3');
+      rev.volume = 0.6;
+      rev.play().catch(()=>{});
       openCard(ch, e);
     });
     new mapboxgl.Marker({element:el}).setLngLat(ch.coords).addTo(map);
