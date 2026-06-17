@@ -35,6 +35,18 @@
 
   #map { position: fixed; top: 0; left: 0; right: 0; bottom: 0; }
 
+ #map-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none; z-index: 50;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.55) 100%);
+}
+#map-overlay::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+  opacity: 0.18;
+}
+
   #legend {
     position: fixed; bottom: 24px; left: 24px; z-index: 100;
     display: flex; flex-direction: column; gap: 8px;
@@ -176,7 +188,8 @@
 <a href="https://www.youtube.com/@AIshWalker" target="_blank" id="header"></a>
 
 <div id="map"></div>
-
+<div id="map-overlay"></div>
+ 
 <div id="legend"></div>
 
 <div id="card">
