@@ -58,6 +58,62 @@
   }
   .marker.active { transform: scale(1.9); }
 
+  /* Ash biker on active marker */
+  .ash-rider {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    background: url('ash.png') center/contain no-repeat;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    z-index: 5;
+    transition: opacity 0.2s;
+  }
+
+  /* Prev / Next nav arrows */
+  #card-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 12px 0;
+    gap: 8px;
+  }
+  .nav-btn {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: #1a1a1a; border: 2px solid var(--gold-dim);
+    color: var(--gold); font-size: 16px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+    flex-shrink: 0;
+  }
+  .nav-btn:hover { background: var(--gold); color: #000; border-color: var(--gold); }
+  .nav-btn:hover .nav-arrow { animation: blink 0.4s step-end infinite; }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  .nav-btn.disabled { opacity: 0.25; pointer-events: none; }
+  #card-nav-chapter { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.15em; color: var(--text-dim); text-transform: uppercase; text-align: center; flex: 1; }
+
+  /* YouTube button over cover */
+  #cover-yt-btn {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 52px; height: 36px;
+    background: rgba(0,0,0,0.75);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+    z-index: 5;
+  }
+  #card-cover-wrap { position: relative; display: block; cursor: pointer; }
+  #card-cover-wrap:hover #cover-yt-btn { opacity: 1; }
+  #card-cover-wrap.no-link { cursor: default; }
+  #card-cover-wrap.no-link #cover-yt-btn { display: none; }
+
   #card {
     position: fixed; z-index: 200; width: 22vw; min-width: 260px; max-width: 340px;
     background: var(--card-bg); border: 1px solid var(--border);
@@ -130,11 +186,19 @@
 
 <div id="card">
   <button id="card-close">✕</button>
-  <a id="card-cover-link" target="_blank"><img id="card-cover" alt="Chapter cover"></a>
+  <a id="card-cover-wrap" target="_blank">
+    <img id="card-cover" alt="Chapter cover">
+    <div id="cover-yt-btn"><svg width="22" height="16" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.7a3 3 0 0 0-2.1-2.1C19.5 0 12 0 12 0S4.5 0 2.6.6A3 3 0 0 0 .5 2.7 31 31 0 0 0 0 8.5a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 8.5a31 31 0 0 0-.5-5.8z"/><polygon fill="#fff" points="9.7,12 15.8,8.5 9.7,5"/></svg></div>
+  </a>
   <div id="card-cover-placeholder"><span>Cover art coming soon</span></div>
+  <div id="card-nav">
+    <button class="nav-btn" id="btn-prev"><span class="nav-arrow">&#8592;</span></button>
+    <div id="card-nav-chapter"></div>
+    <button class="nav-btn" id="btn-next"><span class="nav-arrow">&#8594;</span></button>
+  </div>
   <div id="card-body">
     <div id="card-chapter"></div>
-    <a id="card-title" target="_blank" style="text-decoration:none;"></a>
+    <div id="card-title"></div>
     <div id="card-location"></div>
     <div id="card-lore"></div>
     <div id="card-links">
@@ -228,6 +292,27 @@ map.on('load', () => {
   // addRoute('route-s3' — hidden
 
   let activeMarker = null;
+  let currentChId = null;
+  const s1Chapters = CHAPTERS.filter(c => c.season === 's1');
+
+  // Ash rider element — follows pulse marker
+  const ashRider = document.createElement('div');
+  ashRider.className = 'ash-rider';
+  document.getElementById('map').appendChild(ashRider);
+
+  function updateAshRider(chId) {
+    const ch = CHAPTERS.find(c => c.id === chId);
+    if (!ch) { ashRider.style.opacity = '0'; return; }
+    const projected = map.project(ch.coords);
+    ashRider.style.left = (projected.x - 24) + 'px';
+    ashRider.style.top = (projected.y - 58) + 'px';
+    ashRider.style.opacity = '1';
+  }
+
+  map.on('move', () => {
+    const pulseId = currentChId ? currentChId + 1 : 1;
+    updateAshRider(pulseId);
+  });
 
   const markerEls = {};
   CHAPTERS.forEach(ch => {
@@ -243,6 +328,8 @@ map.on('load', () => {
       Object.values(markerEls).forEach(m => m.classList.remove('pulse'));
       const next = markerEls[ch.id + 1];
       if (next) next.classList.add('pulse');
+      currentChId = ch.id;
+      updateAshRider(ch.id + 1);
       openCard(ch, e);
     });
     new mapboxgl.Marker({element:el}).setLngLat(ch.coords).addTo(map);
@@ -262,11 +349,23 @@ const card = document.getElementById('card');
 const cardCover = document.getElementById('card-cover');
 const cardPlaceholder = document.getElementById('card-cover-placeholder');
 
+let lastEvent = { clientX: window.innerWidth / 2, clientY: window.innerHeight / 2 };
+
 function openCard(ch, e) {
   document.getElementById('card-chapter').textContent = `Chapter ${ch.id} — ${seasonLabel(ch.season)}`;
   document.getElementById('card-title').textContent = ch.title;
   document.getElementById('card-location').textContent = ch.location;
   document.getElementById('card-lore').textContent = ch.lore;
+
+  // Cover + YouTube overlay
+  const coverWrap = document.getElementById('card-cover-wrap');
+  if (ch.yt) {
+    coverWrap.href = ch.yt;
+    coverWrap.classList.remove('no-link');
+  } else {
+    coverWrap.removeAttribute('href');
+    coverWrap.classList.add('no-link');
+  }
 
   const imgPath = `covers/ch${String(ch.id).padStart(2,'0')}.jpg`;
   cardCover.onload = () => { cardCover.style.display='block'; cardPlaceholder.style.display='none'; };
@@ -274,15 +373,22 @@ function openCard(ch, e) {
   cardCover.src = imgPath;
 
   setLink('link-yt', ch.yt);
-  const ytUrl = ch.yt || null;
-  const coverLink = document.getElementById('card-cover-link');
-  const titleEl = document.getElementById('card-title');
-  coverLink.href = ytUrl || '#';
-  coverLink.style.pointerEvents = ytUrl ? 'auto' : 'none';
-  titleEl.href = ytUrl || '#';
-  titleEl.style.pointerEvents = ytUrl ? 'auto' : 'none';
   setLink('link-sp', ch.sp);
   setLink('link-am', ch.am);
+
+  // Nav arrows
+  const s1 = CHAPTERS.filter(c => c.season === 's1');
+  const idx = s1.findIndex(c => c.id === ch.id);
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
+  document.getElementById('card-nav-chapter').textContent = `${ch.id} / ${s1.length}`;
+  btnPrev.classList.toggle('disabled', idx <= 0);
+  btnNext.classList.toggle('disabled', idx >= s1.length - 1);
+  btnPrev.onclick = () => { if (idx > 0) openCard(s1[idx - 1], lastEvent); };
+  btnNext.onclick = () => { if (idx < s1.length - 1) openCard(s1[idx + 1], lastEvent); };
+
+  // Remember last click position for nav arrows
+  lastEvent = e || lastEvent;
 
   // Position card near marker, below header
   const headerH = document.getElementById('header').offsetHeight;
