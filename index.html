@@ -43,6 +43,7 @@
   .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 
   .marker { width: 12px; height: 12px; border-radius: 50%; border: 2px solid rgba(0,0,0,0.4); cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+  .marker::before { content: ''; position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; }
   .marker:hover { transform: scale(1.7); z-index: 10; }
   .marker.s1 { background: #D4A843; box-shadow: 0 0 6px rgba(212,168,67,0.5); }
   .marker.s2 { background: #7AAECC; box-shadow: 0 0 6px rgba(122,174,204,0.5); }
@@ -237,9 +238,9 @@ map.on('load', () => {
     el.addEventListener('click', e => {
       e.stopPropagation();
       if (activeMarker) activeMarker.classList.remove('active');
-      el.classList.remove('pulse');
       el.classList.add('active');
       activeMarker = el;
+      Object.values(markerEls).forEach(m => m.classList.remove('pulse'));
       const next = markerEls[ch.id + 1];
       if (next) next.classList.add('pulse');
       openCard(ch, e);
