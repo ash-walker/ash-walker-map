@@ -177,12 +177,7 @@
 
 <div id="map"></div>
 
-<div id="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:#D4A843"></div>Season 1 — Ashes &amp; Asphalt</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#7AAECC"></div>Season 2 — Pacific Wounds</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#8B3A1A"></div>Season 3 — Blood Meridian Blues</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#888"></div>Final Act — The Long Goodbye</div>
-</div>
+<div id="legend"></div>
 
 <div id="card">
   <button id="card-close">✕</button>
@@ -194,12 +189,11 @@
   <div id="card-nav">
     <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
   <span style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.15em;color:var(--text-dim)">PREV</span>
-  <button class="nav-btn" id="btn-next" title="Next chapter"><span class="nav-arrow">&#8592;</span></button>
-</div>
+ <button class="nav-btn" id="btn-prev" title="Previous chapter"><span class="nav-arrow">&#8592;</span></button>
 <div id="card-nav-chapter"></div>
 <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
   <span style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.15em;color:var(--text-dim)">NEXT</span>
-  <button class="nav-btn" id="btn-prev" title="Previous chapter"><span class="nav-arrow">&#8594;</span></button>
+  <button class="nav-btn" id="btn-next" title="Next chapter"><span class="nav-arrow">&#8594;</span></button>
 </div>
   </div>
   <div id="card-body">
@@ -294,6 +288,20 @@ map.on('load', () => {
     map.addLayer({id, type:'line', source:id, paint:{'line-color':color,'line-width':1.5,'line-opacity':opacity,'line-dasharray':[3,2]}});
   };
   addRoute('route-s1', s1coords, '#D4A843', 0.45);
+
+  const legendDefs = [
+    { season:'s1', color:'#D4A843', label:'Season 1 — Ashes & Asphalt' },
+    { season:'s2', color:'#7AAECC', label:'Season 2 — Pacific Wounds' },
+    { season:'s3', color:'#8B3A1A', label:'Season 3 — Blood Meridian Blues' },
+    { season:'sfinal', color:'#888', label:'Final Act — The Long Goodbye' },
+  ];
+  const activeSeason = [...new Set(CHAPTERS.filter(c => c.season !== 's1').map(c => c.season))];
+  const legend = document.getElementById('legend');
+  legendDefs.forEach(d => {
+    if (d.season === 's1' || activeSeason.includes(d.season)) {
+      legend.innerHTML += `<div class="legend-item"><div class="legend-dot" style="background:${d.color}"></div>${d.label}</div>`;
+    }
+  });
   // addRoute('route-s2' — hidden
   // addRoute('route-s3' — hidden
 
