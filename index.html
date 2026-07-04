@@ -199,6 +199,53 @@
     #platform-links { display: none; }
     .card-link { font-size: 11px; padding: 10px 4px; }
   }
+
+#welcome-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 300;
+  background: rgba(0,0,0,0.6);
+  display: flex; align-items: center; justify-content: center;
+}
+#welcome-overlay.hidden { display: none; }
+
+#welcome-card {
+  position: relative; width: 30vw; min-width: 320px; max-width: 420px;
+  background: var(--card-bg); border: 1px solid var(--border);
+  padding: 32px 28px 28px;
+  max-height: 80vh; overflow-y: auto;
+}
+#welcome-close {
+  position: absolute; top: 10px; right: 12px;
+  background: none; border: none; color: var(--text-dim);
+  font-size: 16px; cursor: pointer; line-height: 1; padding: 4px; z-index: 10;
+}
+#welcome-close:hover { color: var(--gold); }
+#welcome-title {
+  font-family: 'Cinzel', serif; font-size: 26px; font-weight: 900;
+  letter-spacing: 0.08em; color: var(--gold); text-align: center; margin-bottom: 6px;
+}
+#welcome-subtitle {
+  font-style: italic; font-size: 13px; color: var(--text-dim);
+  text-align: center; margin-bottom: 20px;
+}
+#welcome-text { font-size: 14px; line-height: 1.7; color: var(--text); margin-bottom: 22px; }
+#welcome-text p { margin-bottom: 12px; }
+#welcome-start {
+  display: block; width: 100%; padding: 12px; background: none;
+  border: 1px solid var(--gold-dim); color: var(--gold);
+  font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+  cursor: pointer; transition: background 0.15s, color 0.15s;
+}
+#welcome-start:hover { background: var(--gold); color: #000; }
+
+@media (max-width: 768px) {
+  #welcome-overlay { align-items: flex-end; background: rgba(0,0,0,0.5); }
+  #welcome-card {
+    position: fixed; left: 0; right: 0; bottom: 0; top: auto;
+    width: 100%; max-width: 100%; max-height: 90vh;
+    border-radius: 12px 12px 0 0;
+  }
+}
+ 
 </style>
 </head>
 <body>
@@ -207,6 +254,19 @@
 
 <div id="map"></div>
 <div id="map-overlay"></div>
+
+<div id="welcome-overlay">
+  <div id="welcome-card">
+    <button id="welcome-close">✕</button>
+    <div id="welcome-title">ASH WALKER</div>
+    <div id="welcome-subtitle">Every road has a story. Every song is a mile.</div>
+    <div id="welcome-text">
+      <p>Ash Walker is an AI-generated transmedia music project. Each chapter follows a war veteran riding west across America on his father's motorcycle — one song per mile, one mile per chapter.</p>
+      <p>This map traces his route from Tennessee to the Pacific. Click the green point to begin, or explore any marker.</p>
+    </div>
+    <button id="welcome-start">Start the journey</button>
+  </div>
+</div>
  
 <div id="legend"></div>
 
@@ -528,6 +588,15 @@ document.getElementById('card-close').addEventListener('click', () => {
   closeCard();
   document.querySelectorAll('.marker.active').forEach(m=>m.classList.remove('active'));
 });
+
+const welcomeOverlay = document.getElementById('welcome-overlay');
+document.getElementById('welcome-close').addEventListener('click', () => {
+  welcomeOverlay.classList.add('hidden');
+});
+document.getElementById('welcome-start').addEventListener('click', () => {
+  welcomeOverlay.classList.add('hidden');
+});
+ 
 </script>
 </body>
 </html>
