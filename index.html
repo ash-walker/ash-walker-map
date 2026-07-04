@@ -300,6 +300,39 @@ const s3coords = CHAPTERS.filter(c=>c.season==='s3').map(c=>c.coords);
 
 const map = new mapboxgl.Map({ container: 'map', style: 'mapbox://styles/mapbox/dark-v11', center: [-91.1500,34.7800], zoom: 3.8, minZoom: 3, maxZoom: 14, projection: 'mercator' });
 
+  let activeMarker = null;
+  let currentChId = null;
+  const markerEls = {};
+
+  // Ash rider element — follows pulse marker
+  const ashRider = document.createElement('div');
+  ashRider.className = 'ash-rider';
+  document.getElementById('map').appendChild(ashRider);
+
+  function updateAshRider(chId) {
+    const ch = CHAPTERS.find(c => c.id === chId);
+    if (!ch) { ashRider.style.opacity = '0'; return; }
+    const projected = map.project(ch.coords);
+    ashRider.style.left = (projected.x - 24) + 'px';
+    ashRider.style.top = (projected.y - 58) + 'px';
+    ashRider.style.opacity = '1';
+  }
+
+  function activateChapter(ch, e) {
+   const el = markerEls[ch.id];
+   if (activeMarker) activeMarker.classList.remove('active');
+   if (el) { el.classList.add('active'); activeMarker = el; }
+   Object.values(markerEls).forEach(m => m.classList.remove('pulse'));
+   const next = markerEls[ch.id + 1];
+   if (next) next.classList.add('pulse');
+   currentChId = ch.id;
+   updateAshRider(ch.id);
+   const rev = new Audio('rev.mp3');
+   rev.volume = 0.6;
+   rev.play().catch(()=>{});
+   openCard(ch, e);
+ }
+ 
 map.on('load', () => {
   const addRoute = (id, coords, color, opacity) => {
     map.addSource(id, {type:'geojson', data:{type:'Feature', geometry:{type:'LineString', coordinates:coords}}});
@@ -325,52 +358,22 @@ map.on('load', () => {
   // addRoute('route-s2' — hidden
   // addRoute('route-s3' — hidden
 
-  let activeMarker = null;
-  let currentChId = null;
-  const s1Chapters = CHAPTERS.filter(c => c.season === 's1');
-
-  // Ash rider element — follows pulse marker
-  const ashRider = document.createElement('div');
-  ashRider.className = 'ash-rider';
-  document.getElementById('map').appendChild(ashRider);
-
-  function updateAshRider(chId) {
-    const ch = CHAPTERS.find(c => c.id === chId);
-    if (!ch) { ashRider.style.opacity = '0'; return; }
-    const projected = map.project(ch.coords);
-    ashRider.style.left = (projected.x - 24) + 'px';
-    ashRider.style.top = (projected.y - 58) + 'px';
-    ashRider.style.opacity = '1';
-  }
-
-  map.on('move', () => {
+   map.on('move', () => {
     const pulseId = currentChId ? currentChId + 1 : 1;
     updateAshRider(pulseId);
   });
 
-  const markerEls = {};
   CHAPTERS.forEach(ch => {
-    if (ch.season !== 's1') return;
-    const el = document.createElement('div');
-    el.className = `marker ${ch.season}${ch.id === 1 ? ' start pulse' : ''}`;
-    markerEls[ch.id] = el;
-    el.addEventListener('click', e => {
-      e.stopPropagation();
-      if (activeMarker) activeMarker.classList.remove('active');
-      el.classList.add('active');
-      activeMarker = el;
-      Object.values(markerEls).forEach(m => m.classList.remove('pulse'));
-      const next = markerEls[ch.id + 1];
-      if (next) next.classList.add('pulse');
-      currentChId = ch.id;
-      updateAshRider(ch.id);
-      const rev = new Audio('rev.mp3');
-      rev.volume = 0.6;
-      rev.play().catch(()=>{});
-      openCard(ch, e);
-    });
-    new mapboxgl.Marker({element:el}).setLngLat(ch.coords).addTo(map);
+  if (ch.season !== 's1') return;
+  const el = document.createElement('div');
+  el.className = `marker ${ch.season}${ch.id === 1 ? ' start pulse' : ''}`;
+  markerEls[ch.id] = el;
+  el.addEventListener('click', e => {
+    e.stopPropagation();
+    activateChapter(ch, e);
   });
+  new mapboxgl.Marker({element:el}).setLngLat(ch.coords).addTo(map);
+});
 
   map.on('click', () => {
     closeCard();
@@ -421,8 +424,8 @@ function openCard(ch, e) {
   document.getElementById('card-nav-chapter').textContent = `${ch.id} / ${s1.length}`;
   btnPrev.classList.toggle('disabled', idx <= 0);
   btnNext.classList.toggle('disabled', idx >= s1.length - 1);
-  btnPrev.onclick = () => { if (idx > 0) openCard(s1[idx - 1], lastEvent); };
-  btnNext.onclick = () => { if (idx < s1.length - 1) openCard(s1[idx + 1], lastEvent); };
+  btnPrev.onclick = () => { if (idx > 0) activateChapter(s1[idx - 1], lastEvent); };
+  btnNext.onclick = () => { if (idx < s1.length - 1) activateChapter(s1[idx + 1], lastEvent); };
 
   // Remember last click position for nav arrows
   lastEvent = e || lastEvent;
