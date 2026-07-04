@@ -489,6 +489,13 @@ function closeCard() {
   audioPlayer.src = ""; 
 }
 
+['card-cover-wrap', 'link-yt', 'link-sp', 'link-am'].forEach(id => {
+  document.getElementById(id).addEventListener('click', () => {
+    audioPlayer.pause();
+    audioPlayer.src = '';
+  });
+});
+ 
 function seasonLabel(s) {
   return {s1:'Ashes & Asphalt', s2:'Pacific Wounds', s3:'Blood Meridian Blues', sfinal:'The Long Goodbye'}[s]||'';
 }
