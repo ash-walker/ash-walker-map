@@ -61,12 +61,16 @@
   .marker.s2 { background: #7AAECC; box-shadow: 0 0 6px rgba(122,174,204,0.5); }
   .marker.s3 { background: #8B3A1A; box-shadow: 0 0 6px rgba(139,58,26,0.5); }
   .marker.sfinal { background: #888; box-shadow: 0 0 5px rgba(136,136,136,0.4); }
-  .marker.start { width: 14px; height: 14px; background: #A8821F; box-shadow: 0 0 8px rgba(168,130,31,0.7); }
-  .marker.pulse { animation: pulse 1.8s ease-in-out infinite; }
+  .marker.start { width: 14px; height: 14px; }
+  .marker.pulse {
+    background: #3FA34D;
+    box-shadow: 0 0 8px rgba(63,163,77,0.7);
+    animation: pulse 1.8s ease-in-out infinite;
+  }
   @keyframes pulse {
-    0%   { box-shadow: 0 0 0 0 rgba(168,130,31,0.8); }
-    70%  { box-shadow: 0 0 0 12px rgba(168,130,31,0); }
-    100% { box-shadow: 0 0 0 0 rgba(168,130,31,0); }
+    0%   { box-shadow: 0 0 0 0 rgba(63,163,77,0.8); }
+    70%  { box-shadow: 0 0 0 12px rgba(63,163,77,0); }
+    100% { box-shadow: 0 0 0 0 rgba(63,163,77,0); }
   }
   .marker.active { transform: scale(1.9); }
 
