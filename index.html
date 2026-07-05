@@ -143,12 +143,8 @@
   #card-cover-wrap.no-link { cursor: default; }
   #card-cover-wrap.no-link #cover-yt-btn { display: none; }
 
-  #card {
-    position: fixed; z-index: 200; width: 26vw; min-width: 300px; max-width: 400px;
-    max-height: calc(100vh - 32px);
-    background: var(--card-bg); border: 1px solid var(--border);
-    display: none; flex-direction: column; overflow: hidden;
-  }
+  #card { position: fixed; z-index: 200; width: 26vw; min-width: 300px; max-width: 400px; max-height: calc(100vh - 32px); background: var(--card-bg); border: 1px solid var(--border);
+          border-radius: 16px; display: none; flex-direction: column; overflow: hidden; }
   #card.visible { display: flex; animation: slideIn 0.2s ease; }
   @keyframes slideIn {
     from { opacity: 0; transform: translateX(10px); }
