@@ -108,9 +108,9 @@
     gap: 8px;
   }
   .nav-btn {
-    width: 36px; height: 36px; border-radius: 50%;
-    background: #1a1a1a; border: 2px solid var(--gold-dim);
-    color: var(--gold); font-size: 16px;
+    width: 42px; height: 42px; border-radius: 50%;
+    background: #1a1a1a; border: 3px solid var(--gold-dim);
+    color: var(--gold); font-size: 20px;
     cursor: pointer; display: flex; align-items: center; justify-content: center;
     transition: border-color 0.15s, color 0.15s, background 0.15s;
     flex-shrink: 0;
@@ -165,12 +165,10 @@
   .card-link:hover { border-color: var(--gold); color: var(--gold); }
   .card-link.disabled { opacity: 0.28; pointer-events: none; }
 
-  #card-close {
-    position: absolute; top: 10px; right: 12px;
-    background: none; border: none; color: var(--text-dim);
-    font-size: 16px; cursor: pointer; line-height: 1; padding: 4px; z-index: 10;
-  }
-  #card-close:hover { color: var(--gold); }
+  #card-close { position: absolute; top: 8px; right: 10px; background: none; border: none; color: var(--gold); font-size: 22px; font-weight: 700; -webkit-text-stroke: 0.6px var(--gold);
+                cursor: pointer; line-height: 1; padding: 10px; z-index: 15; }
+  #card-close::before { content: ''; position: absolute; top: -6px; left: -6px; right: -6px; bottom: -6px; }
+  #card-close:hover { color: var(--gold-dim); }
 
   @media (max-width: 768px) {
     #header { height: 24vw; background-position: center center !important; }
