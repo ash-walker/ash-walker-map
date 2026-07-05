@@ -215,16 +215,11 @@
 
 #welcome-card {
   position: relative; width: 30vw; min-width: 320px; max-width: 420px;
-  background: var(--card-bg); border: 1px solid var(--border);
+  background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px;
   padding: 32px 28px 28px;
   max-height: 80vh; overflow-y: auto;
 }
-#welcome-close {
-  position: absolute; top: 10px; right: 12px;
-  background: none; border: none; color: var(--text-dim);
-  font-size: 16px; cursor: pointer; line-height: 1; padding: 4px; z-index: 10;
-}
-#welcome-close:hover { color: var(--gold); }
+
 #welcome-title {
   font-family: 'Cinzel', serif; font-size: 39px; font-weight: 900;
   letter-spacing: 0.08em; text-align: center; margin-bottom: 6px;
@@ -240,7 +235,7 @@
 #welcome-text p { margin-bottom: 12px; }
 #welcome-start {
   display: block; width: 100%; padding: 12px; background: none;
-  border: 1px solid var(--gold-dim); color: var(--gold);
+  border: 1px solid var(--gold-dim); border-radius: 20px; color: var(--gold);
   font-family: 'Cinzel', serif; font-size: 17px; letter-spacing: 0.15em; text-transform: uppercase;
   cursor: pointer; transition: background 0.15s, color 0.15s;
 }
@@ -266,7 +261,6 @@
 
 <div id="welcome-overlay">
   <div id="welcome-card">
-    <button id="welcome-close">✕</button>
     <div id="welcome-title">ASH WALKER</div>
     <div id="welcome-subtitle">Every road has a story. Every song is a mile.</div>
     <div id="welcome-text">
@@ -607,9 +601,6 @@ document.getElementById('card-close').addEventListener('click', () => {
 });
 
 const welcomeOverlay = document.getElementById('welcome-overlay');
-document.getElementById('welcome-close').addEventListener('click', () => {
-  welcomeOverlay.classList.add('hidden');
-});
 document.getElementById('welcome-start').addEventListener('click', () => {
   welcomeOverlay.classList.add('hidden');
 });
