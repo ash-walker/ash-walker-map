@@ -143,7 +143,7 @@
   #card-cover-wrap.no-link { cursor: default; }
   #card-cover-wrap.no-link #cover-yt-btn { display: none; }
 
-  #card { position: fixed; z-index: 200; width: 26vw; min-width: 300px; max-width: 400px; height: calc(100vh - 32px); max-height: calc(100vh - 32px); background: var(--card-bg); border: 1px solid var(--border);
+  #card { position: fixed; z-index: 200; width: 26vw; min-width: 300px; max-width: 400px; max-height: calc(100vh - 32px); background: var(--card-bg); border: 1px solid var(--border);
           border-radius: 16px; display: none; flex-direction: column; overflow: hidden; }
   #card.visible { display: flex; animation: slideIn 0.2s ease; }
   @keyframes slideIn {
@@ -519,14 +519,17 @@ function openCard(ch, e) {
   btnPrev.onclick = () => { if (idx > 0) activateChapter(s1[idx - 1], lastEvent); };
   btnNext.onclick = () => { if (idx < s1.length - 1) activateChapter(s1[idx + 1], lastEvent); };
 
-  // Remember last click position for nav arrows
+ // Remember last click position for nav arrows
   lastEvent = e || lastEvent;
+
+  // Показываем карточку до расчёта позиции, чтобы измерить её реальную высоту
+  card.classList.add('visible');
 
   // Position card near marker, below header
   const headerH = document.getElementById('header').offsetHeight;
   const cardW = Math.max(260, Math.min(340, window.innerWidth * 0.22));
   const margin = 16;
-  const cardH = Math.min(card.scrollHeight || 560, window.innerHeight - headerH - margin * 2);
+  const cardH = card.offsetHeight;
   const clickX = e.clientX;
   const clickY = e.clientY;
 
@@ -544,8 +547,6 @@ function openCard(ch, e) {
   card.style.left = left + 'px';
   card.style.top = top + 'px';
   card.style.right = 'auto';
-
-  card.classList.add('visible');
 
   // Автоматически формируем путь к файлу в папке audio (например, audio/ch01.mp3)
   const trackPath = `audio/ch${String(ch.id).padStart(2, '0')}.mp3`;
