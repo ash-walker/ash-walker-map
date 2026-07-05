@@ -144,9 +144,9 @@
   #card-cover-wrap.no-link #cover-yt-btn { display: none; }
 
   #card {
-    position: fixed; z-index: 200; width: 22vw; min-width: 260px; max-width: 340px;
+    position: fixed; z-index: 200; width: 26vw; min-width: 300px; max-width: 400px;
     background: var(--card-bg); border: 1px solid var(--border);
-    display: none; flex-direction: column; overflow: visible;
+    display: none; flex-direction: column; overflow: hidden;
   }
   #card.visible { display: flex; animation: slideIn 0.2s ease; }
   @keyframes slideIn {
@@ -155,23 +155,21 @@
   }
 
   #card-cover { width: 100%; aspect-ratio: 1; object-fit: cover; display: none; }
-  #card-cover-placeholder {
-    width: 100%; aspect-ratio: 1; background: var(--bg2);
-    display: flex; align-items: center; justify-content: center;
-    border-bottom: 1px solid var(--border);
-  }
+  #card-cover-placeholder { width: 100%; aspect-ratio: 1; background: var(--bg2); display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border); }
   #card-cover-placeholder span { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.15em; color: var(--text-dim); text-transform: uppercase; }
 
-  #card-body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 9px; }
+  #card-body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 9px; overflow-y: auto; scroll-behavior: smooth; max-height: calc(100% - 40px); /* оставляем место под nav */ }
   #card-chapter { font-family: 'Cinzel', serif; font-size: 15px; letter-spacing: 0.2em; color: var(--gold-dim); text-transform: uppercase; }
   #card-title { font-family: 'Cinzel', serif; font-size: 24px; font-weight: 700; color: var(--gold); line-height: 1.25; letter-spacing: 0.05em; }
   #card-location { font-size: 18px; color: var(--text-dim); letter-spacing: 0.08em; font-style: italic; }
   #card-lore { font-size: 20px; line-height: 1.65; color: var(--text); border-top: 1px solid var(--border); padding-top: 10px; margin-top: 2px; }
 
-  #card-links { display: flex; gap: 8px; margin-top: 4px; }
+  #card-links { display: flex; gap: 8px; margin-top: 4px; position: sticky; bottom: 0; background: var(--card-bg); padding-top: 8px; padding-bottom: 4px; animation: slideUpLinks 0.3s ease 0.15s both; }
+  @keyframes slideUpLinks { from { transform: translateY(12px); opacity: 0; } to { transform: translateY(0); opacity: 1; }}
+ 
   .card-link {
     flex: 1; padding: 7px 4px; text-align: center;
-    font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    font-family: 'Cinzel', serif; font-size: 13.5px; letter-spacing: 0.12em; text-transform: uppercase;
     text-decoration: none; border: 1px solid var(--border); color: var(--text-dim);
     transition: border-color 0.15s, color 0.15s;
   }
@@ -286,12 +284,12 @@
   <div id="card-cover-placeholder"><span>Cover art coming soon</span></div>
   <div id="card-nav">
     <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-      <span style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.15em;color:var(--text-dim)">PREV</span>
+      <span style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.15em;color:var(--text-dim)">PREV</span>
       <button class="nav-btn" id="btn-prev" title="Previous chapter"><span class="nav-arrow">&#8592;</span></button>
     </div>
     <div id="card-nav-chapter"></div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-      <span style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:0.15em;color:var(--text-dim)">NEXT</span>
+      <span style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.15em;color:var(--text-dim)">NEXT</span>
       <button class="nav-btn" id="btn-next" title="Next chapter"><span class="nav-arrow">&#8594;</span></button>
     </div>
   </div>
@@ -477,6 +475,14 @@ function openCard(ch, e) {
   document.getElementById('card-title').textContent = ch.title;
   document.getElementById('card-location').textContent = ch.location;
   document.getElementById('card-lore').textContent = ch.lore;
+  const cardBody = document.getElementById('card-body');
+  cardBody.scrollTop = 0;
+  if (cardBody.scrollHeight > cardBody.clientHeight) {
+     setTimeout(() => {
+       cardBody.scrollTo({ top: 40, behavior: 'smooth' });
+       setTimeout(() => cardBody.scrollTo({ top: 0, behavior: 'smooth' }), 500);
+     }, 300);
+  }
 
   // Cover + YouTube overlay
   const coverWrap = document.getElementById('card-cover-wrap');
