@@ -522,14 +522,19 @@ function openCard(ch, e) {
  // Remember last click position for nav arrows
   lastEvent = e || lastEvent;
 
-  // Показываем карточку до расчёта позиции, чтобы измерить её реальную высоту
-  card.classList.add('visible');
-
   // Position card near marker, below header
   const headerH = document.getElementById('header').offsetHeight;
   const cardW = Math.max(260, Math.min(340, window.innerWidth * 0.22));
   const margin = 16;
+
+  // Ограничиваем карточку реально доступной высотой под шапкой —
+  // если лор длинный, скролл включится внутри #card-body, а не уедет за экран
+  card.style.maxHeight = (window.innerHeight - headerH - margin * 2) + 'px';
+
+  // Показываем карточку, чтобы измерить её настоящую (уже ограниченную) высоту
+  card.classList.add('visible');
   const cardH = card.offsetHeight;
+
   const clickX = e.clientX;
   const clickY = e.clientY;
 
