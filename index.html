@@ -125,19 +125,8 @@
   #card-nav-chapter { font-family: 'Cinzel', serif; font-size: 13.5px; letter-spacing: 0.15em; color: var(--text-dim); text-transform: uppercase; text-align: center; flex: 1; }
 
   /* YouTube button over cover */
-  #cover-yt-btn {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 52px; height: 36px;
-    background: rgba(0,0,0,0.75);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0;
-    transition: opacity 0.2s;
-    pointer-events: none;
-    z-index: 5;
-  }
+  #cover-yt-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 52px; height: 36px; background: rgba(0,0,0,0.75); border-radius: 10px; display: flex; align-items: center; justify-content: center;
+                  opacity: 0; transition: opacity 0.2s; pointer-events: none; z-index: 5; }
   #card-cover-wrap { position: relative; display: block; cursor: pointer; }
   #card-cover-wrap:hover #cover-yt-btn { opacity: 1; }
   #card-cover-wrap.no-link { cursor: default; }
@@ -158,19 +147,19 @@
   #card-cover-placeholder { width: 100%; aspect-ratio: 1; background: var(--bg2); display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border); }
   #card-cover-placeholder span { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.15em; color: var(--text-dim); text-transform: uppercase; }
 
-  #card-body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 9px; overflow-y: auto; scroll-behavior: smooth; max-height: calc(100% - 40px); /* оставляем место под nav */ }
+  #card-body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 9px; overflow-y: auto; scroll-behavior: smooth; flex: 1 1 auto; min-height: 0; } /* оставляем место под nav */ }
   #card-chapter { font-family: 'Cinzel', serif; font-size: 15px; letter-spacing: 0.2em; color: var(--gold-dim); text-transform: uppercase; }
   #card-title { font-family: 'Cinzel', serif; font-size: 24px; font-weight: 700; color: var(--gold); line-height: 1.25; letter-spacing: 0.05em; }
   #card-location { font-size: 18px; color: var(--text-dim); letter-spacing: 0.08em; font-style: italic; }
   #card-lore { font-size: 20px; line-height: 1.65; color: var(--text); border-top: 1px solid var(--border); padding-top: 10px; margin-top: 2px; }
 
-  #card-links { display: flex; gap: 8px; margin-top: 4px; position: sticky; bottom: 0; background: var(--card-bg); padding-top: 8px; padding-bottom: 4px; animation: slideUpLinks 0.3s ease 0.15s both; }
+  #card-links { display: flex; gap: 8px; flex-shrink: 0; background: var(--card-bg); padding: 8px 20px 14px; border-top: 1px solid var(--border); animation: slideUpLinks 0.3s ease 0.15s both; }
   @keyframes slideUpLinks { from { transform: translateY(12px); opacity: 0; } to { transform: translateY(0); opacity: 1; }}
  
   .card-link {
     flex: 1; padding: 7px 4px; text-align: center;
     font-family: 'Cinzel', serif; font-size: 13.5px; letter-spacing: 0.12em; text-transform: uppercase;
-    text-decoration: none; border: 1px solid var(--border); color: var(--text-dim);
+    text-decoration: none; border: 1px solid var(--gold-dim); border-radius: 6px; color: var(--text-dim);
     transition: border-color 0.15s, color 0.15s;
   }
   .card-link:hover { border-color: var(--gold); color: var(--gold); }
@@ -189,7 +178,7 @@
       position: fixed !important;
       left: 0 !important; right: 0 !important; bottom: 0 !important; top: auto !important;
       width: 100% !important; max-width: 100% !important;
-      max-height: 90vh; overflow-y: scroll;
+      max-height: 90vh; overflow: hidden;
       border-radius: 12px 12px 0 0;
     }
     #card-cover, #card-cover-placeholder { aspect-ratio: 1; }
@@ -298,13 +287,13 @@
     <div id="card-title"></div>
     <div id="card-location"></div>
     <div id="card-lore"></div>
-    <div id="card-links">
-      <a id="link-yt" class="card-link" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="#FF0000" style="vertical-align:middle;margin-right:5px"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8z"/><polygon fill="#fff" points="9.7,15.5 15.8,12 9.7,8.5"/></svg>YouTube</a>
-      <a id="link-sp" class="card-link" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="#1DB954" style="vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="12"/><path fill="#fff" d="M17.9 10.9c-3.4-2-9-2.2-12.2-1.2-.5.2-1-.2-1.2-.6-.2-.5.2-1 .6-1.2 3.7-1.1 9.9-.9 13.8 1.4.5.3.6.9.3 1.4-.3.4-.9.5-1.3.2zm-.1 2.8c-.3.4-.8.5-1.2.3-2.8-1.7-7.1-2.2-10.4-1.2-.4.1-.9-.1-1-.5-.1-.4.1-.9.5-1 3.8-1.1 8.5-.6 11.7 1.4.4.2.5.7.4 1zm-1.3 2.7c-.2.3-.6.4-1 .2-2.5-1.5-5.6-1.9-9.3-1-.4.1-.7-.2-.8-.5-.1-.4.2-.7.5-.8 4-.9 7.5-.5 10.3 1.2.4.2.4.6.3.9z"/></svg>Spotify</a>
-      <a id="link-am" class="card-link" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:5px"><defs><linearGradient id="amg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FA233B"/><stop offset="100%" stop-color="#FB5C74"/></linearGradient></defs><rect width="24" height="24" rx="5" fill="url(#amg)"/><path fill="#fff" d="M16.5 14.7c-.3.5-.7.7-1.3.5l-2.7-1.6v3.9c0 .8-.4 1.2-1 1.2-.7 0-2.5-.5-2.5-2.2 0-1.4 1.1-2 2.5-1.6V9.3c0-.6.3-1 .9-1.1l4-1c.6-.2 1 .2 1 .8v4.2c.3.7.3 1.3-.9 2.5z"/></svg>Apple</a>
+   </div>  
+   <div id="card-links">
+     <a id="link-yt" class="card-link" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="#FF0000" style="vertical-align:middle;margin-right:5px"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8z"/><polygon fill="#fff" points="9.7,15.5 15.8,12 9.7,8.5"/></svg>YouTube</a>
+     <a id="link-sp" class="card-link" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="#1DB954" style="vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="12"/><path fill="#fff" d="M17.9 10.9c-3.4-2-9-2.2-12.2-1.2-.5.2-1-.2-1.2-.6-.2-.5.2-1 .6-1.2 3.7-1.1 9.9-.9 13.8 1.4.5.3.6.9.3 1.4-.3.4-.9.5-1.3.2zm-.1 2.8c-.3.4-.8.5-1.2.3-2.8-1.7-7.1-2.2-10.4-1.2-.4.1-.9-.1-1-.5-.1-.4.1-.9.5-1 3.8-1.1 8.5-.6 11.7 1.4.4.2.5.7.4 1zm-1.3 2.7c-.2.3-.6.4-1 .2-2.5-1.5-5.6-1.9-9.3-1-.4.1-.7-.2-.8-.5-.1-.4.2-.7.5-.8 4-.9 7.5-.5 10.3 1.2.4.2.4.6.3.9z"/></svg>Spotify</a>
+     <a id="link-am" class="card-link" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:5px"><defs><linearGradient id="amg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FA233B"/><stop offset="100%" stop-color="#FB5C74"/></linearGradient></defs><rect width="24" height="24" rx="5" fill="url(#amg)"/><path fill="#fff" d="M16.5 14.7c-.3.5-.7.7-1.3.5l-2.7-1.6v3.9c0 .8-.4 1.2-1 1.2-.7 0-2.5-.5-2.5-2.2 0-1.4 1.1-2 2.5-1.6V9.3c0-.6.3-1 .9-1.1l4-1c.6-.2 1 .2 1 .8v4.2c.3.7.3 1.3-.9 2.5z"/></svg>Apple</a>
     </div>
   </div>
-</div>
 
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXNoLXdhbGtlciIsImEiOiJjbXFmbGx3bmUwZWthMzJyMWw4MGFqcDl5In0.556EtLH6w0n2MN-r0lXHsA';
