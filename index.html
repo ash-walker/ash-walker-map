@@ -441,7 +441,7 @@ map.on('load', () => {
 
    map.on('move', () => {
     const pulseId = currentChId ? currentChId + 1 : 1;
-    updateAshRider(pulseId);
+    updateAshRider(currentChId);
   });
 
   CHAPTERS.forEach(ch => {
