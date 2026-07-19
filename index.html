@@ -227,14 +227,15 @@
 
 #welcome-overlay {
   position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
-  z-index: 99999 !important; /* Выставляем абсолютный приоритет над картами и карточками */
+  z-index: 99999 !important;
   background: rgba(0,0,0,0.6);
-  display: block;
+  display: flex; justify-content: center; align-items: flex-start; /* Центрируем по горизонтали, прижимаем к верху */
 }
 #welcome-overlay.hidden { display: none !important; }
 
 #welcome-card {
-  position: absolute; top: 16.25vw; left: 50%; transform: translateX(-50%); /* Прижим к шапке десктопа */
+  position: relative; /* Возвращаем относительное позиционирование */
+  margin-top: 16.25vw; /* Ровно под шапку десктопа */
   width: 30vw; min-width: 320px; max-width: 420px;
   background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px;
   padding: 32px 28px 28px;
@@ -265,9 +266,10 @@
 @media (max-width: 768px) {
   #welcome-overlay { background: rgba(0,0,0,0.5); }
   #welcome-card {
-    position: absolute; top: 24vw; left: 50%; transform: translateX(-50%); /* Прижим к шапке мобилки */
+    position: relative; top: 0; left: 0; transform: none;
+    margin-top: 24vw; /* Ровно под мобильную шапку */
     width: 100%; max-width: 100%; max-height: calc(100vh - 24vw);
-    border-radius: 0 0 12px 12px; /* Скругление снизу, так как сверху она прижата к шапке */
+    border-radius: 0 0 12px 12px;
   }
 }
  
