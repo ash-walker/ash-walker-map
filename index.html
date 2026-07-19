@@ -669,8 +669,11 @@ document.getElementById('card-close').addEventListener('click', () => {
 });
 
 const welcomeOverlay = document.getElementById('welcome-overlay');
-document.getElementById('welcome-start').addEventListener('click', () => {
+document.getElementById('welcome-start').addEventListener('click', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
   welcomeOverlay.classList.add('hidden');
+  welcomeOverlay.style.pointerEvents = 'none'; // Отключаем перехват кликов оверлеем
 });
  
 </script>
