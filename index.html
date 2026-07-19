@@ -226,9 +226,10 @@
   #card-more.visible { opacity: 1; }
 
 #welcome-overlay {
-  position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 300;
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+  z-index: 99999 !important; /* Выставляем абсолютный приоритет над картами и карточками */
   background: rgba(0,0,0,0.6);
-  display: block; /* Убираем центрирование flex-боксом */
+  display: block;
 }
 #welcome-overlay.hidden { display: none !important; }
 
