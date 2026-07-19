@@ -196,16 +196,13 @@
     #card {
       position: fixed !important;
       left: 0 !important; right: 0 !important;
-      top: 24vw !important; bottom: auto !important;
-      /* Явная высота вместо top+bottom — надёжнее на мобильных браузерах,
-         где схлопывание адресной строки меняет фактическую высоту viewport
-         и сбивает расчёт "bottom: 0" у fixed-элементов (классический iOS-баг). */
-      height: calc(100vh - 24vw) !important;
-      height: calc(100dvh - 24vw) !important; /* новые браузеры используют это значение */
-      max-height: none !important; /* инлайн max-height из JS больше не должен применяться на мобиле */
+      top: 0 !important; bottom: 0 !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      max-height: none !important;
       width: 100% !important; max-width: 100% !important;
       overflow: hidden;
-      border-radius: 12px 12px 0 0;
+      border-radius: 0;
     }
     /* Меньше обложка — освобождает вертикальное место под лор без скролла */
     #card-cover { aspect-ratio: auto; max-height: 24vh; object-fit: contain; }
