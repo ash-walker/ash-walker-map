@@ -425,43 +425,24 @@ const map = new mapboxgl.Map({ container: 'map', style: 'mapbox://styles/mapbox/
     ashRider.style.opacity = '1';
   }
 
-  // "Голос-Счётчик" — монолог, который в лонгмиксе звучит ПЕРЕД главой N
-  // (это M(N-1) в нумерации AshWalker_S1_Monologues: M0 перед Ch.1, M1 перед Ch.2 ... M17 перед Ch.18).
-  // Файлы пока не записаны (голос не утверждён на 15 июля) — поэтому это
-  // мягкая деградация: нет файла → просто рёв двигателя, как раньше.
-  // Ch.14 намеренно без монолога (M13 — тишина по замыслу), таким файлом
-  // намеренно не планируется — там сразу отработает фолбэк на rev.mp3.
+ let introAudio = null;
+
   function monologuePathFor(ch) {
     if (ch.season !== 's1' || ch.id < 1 || ch.id > 18) return null;
-    const idx = ch.id - 1; // Ch.1 → mono_00, Ch.2 → mono_01 ... Ch.18 → mono_17
-    return `audio/monologues/mono_${String(idx).padStart(2, '0')}.mp3`;
+    const idx = ch.id - 1; 
+    return `audio/mono_${String(idx).padStart(2, '0')}.mp3`;
   }
 
-  function playEngineFallback() {
-    const rev = new Audio('rev.mp3');
-    rev.volume = 0.6;
-    rev.play().catch(() => {});
-  }
-
-  function playChapterIntro(ch) {
+  function playChapterIntro(ch, onComplete) {
+    if (introAudio) { introAudio.pause(); introAudio = null; }
     const path = monologuePathFor(ch);
-    if (!path) { playEngineFallback(); return; }
+    if (!path) { if (onComplete) onComplete(); return; }
 
-    const monologue = new Audio(path);
-    monologue.volume = 0.85;
-    let started = false;
-
-    monologue.addEventListener('canplaythrough', () => {
-      if (started) return;
-      started = true;
-      monologue.play().catch(() => playEngineFallback());
-    }, { once: true });
-
-    monologue.addEventListener('error', () => {
-      if (started) return;
-      started = true;
-      playEngineFallback();
-    }, { once: true });
+    introAudio = new Audio(path);
+    introAudio.volume = 0.85;
+    introAudio.addEventListener('ended', () => { introAudio = null; if (onComplete) onComplete(); });
+    introAudio.addEventListener('error', () => { introAudio = null; if (onComplete) onComplete(); });
+    introAudio.play().catch(() => { introAudio = null; if (onComplete) onComplete(); });
   }
 
   function activateChapter(ch, e) {
@@ -473,7 +454,22 @@ const map = new mapboxgl.Map({ container: 'map', style: 'mapbox://styles/mapbox/
    if (next) next.classList.add('pulse');
    currentChId = ch.id;
    updateAshRider(ch.id);
-   playChapterIntro(ch);
+   
+   // Останавливаем прошлую музыку перед началом нового монолога
+   audioPlayer.pause();
+   audioPlayer.src = "";
+
+   // Запускаем монолог, а по его окончании — включаем музыку
+   playChapterIntro(ch, () => {
+     const trackPath = `audio/ch${String(ch.id).padStart(2, '0')}.mp3`;
+     const checkAudio = new Audio(trackPath);
+     checkAudio.addEventListener('canplaythrough', () => {
+       if (currentChId === ch.id) {
+         audioPlayer.src = trackPath;
+         audioPlayer.play().catch(err => console.log("Автозвук заблокирован:", err));
+       }
+     });
+   });
    openCard(ch, e);
  }
  
@@ -632,27 +628,7 @@ function openCard(ch, e) {
     card.style.right = 'auto';
   }
 
-  // Автоматически формируем путь к файлу в папке audio (например, audio/ch01.mp3)
-  const trackPath = `audio/ch${String(ch.id).padStart(2, '0')}.mp3`;
-  
-  // Создаем временную проверку, есть ли вообще файл для этой главы
-  const checkAudio = new Audio(trackPath);
-  
-  checkAudio.addEventListener('canplaythrough', () => {
-    if (audioPlayer.src !== window.location.origin + '/' + trackPath) {
-      audioPlayer.src = trackPath;
-      setTimeout(() => {
-        audioPlayer.play().catch(err => console.log("Автозвук заблокирован до первого клика:", err));
-      }, 2000);
-    }
-  });
-
-  checkAudio.addEventListener('error', () => {
-    // Если файла еще нет в папке (например, главы 16, 17, 18), просто плавно глушим плеер
-    audioPlayer.pause();
-    audioPlayer.src = "";
-  });
- 
+  // Логика загрузки трека перенесена в шаг 2 (внутри колбэка playChapterIntro)
 }
 
 function setLink(id, url) {
@@ -661,12 +637,21 @@ function setLink(id, url) {
   else { el.href='#'; el.classList.add('disabled'); }
 }
 
-function closeCard() { 
+ffunction closeCard() { 
   card.classList.remove('visible'); 
   
-  // Останавливаем музыку и сбрасываем плеер при закрытии карточки
+  // Прерываем монолог, если он играл
+  if (introAudio) { introAudio.pause(); introAudio = null; }
+  
   audioPlayer.pause();
   audioPlayer.src = ""; 
+
+  // Если закрыли карточку 18-й главы, включаем финальный монолог
+  if (currentChId === 18) {
+    const outMono = new Audio('audio/mono_18.mp3');
+    outMono.volume = 0.85;
+    outMono.play().catch(() => {});
+  }
 }
 
 ['card-cover-wrap', 'link-yt', 'link-sp', 'link-am'].forEach(id => {
