@@ -22,15 +22,29 @@
   }
   html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'EB Garamond', Georgia, serif; overflow: hidden; }
 
-  #header {
+ #header {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     height: min(16.25vw, 20vh);
-    background: url('head.jpg') center center / contain no-repeat, var(--bg);
+    background: var(--bg);
+    overflow: hidden;
     pointer-events: auto; cursor: pointer;
   }
+  /* Задний слой — та же картинка, растянута на cover, размыта и притемнена: боке-фон вместо чёрных полос */
+  #header::before {
+    content: '';
+    position: absolute; inset: -30px;
+    background: url('head.jpg') center center / cover no-repeat;
+    filter: blur(28px) saturate(1.15) brightness(0.75);
+    opacity: 0.65;
+    z-index: 0;
+  }
+  /* Передний слой — чёткая картинка целиком (contain, без обрезки) + нижний градиент-затухание в один слой */
   #header::after {
-    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
-    background: linear-gradient(to bottom, transparent, var(--bg));
+    content: ''; position: absolute; inset: 0;
+    background:
+      linear-gradient(to bottom, transparent 0%, transparent calc(100% - 60px), var(--bg) 100%),
+      url('head.jpg') center center / contain no-repeat;
+    z-index: 1;
   }
 
   #map { position: fixed; top: 0; left: 0; right: 0; bottom: 0; }
