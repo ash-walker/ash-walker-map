@@ -614,37 +614,18 @@ function openCard(ch, e) {
     card.style.top = '';
     card.style.maxHeight = '';
     card.classList.add('visible');
-  } else {
-    // Position card near marker, below header (desktop only)
-    const headerH = document.getElementById('header').offsetHeight;
-    const cardW = Math.max(260, Math.min(340, window.innerWidth * 0.22));
-    const margin = 16;
+ } else {
+    // Десктоп: правый верхний угол экрана, шапку игнорируем —
+    // карточка может перекрывать её (текст шапки по центру, не страдает).
+    // Это отвоёвывает всю высоту шапки под лор и убирает скролл на
+    // невысоких мониторах.
+    const margin = 30;
 
-    // Ограничиваем карточку реально доступной высотой под шапкой —
-    // если лор длинный, скролл включится внутри #card-body, а не уедет за экран
-    card.style.maxHeight = (window.innerHeight - headerH - margin * 2) + 'px';
-
-    // Показываем карточку, чтобы измерить её настоящую (уже ограниченную) высоту
+    card.style.left = '';
+    card.style.right = margin + 'px';
+    card.style.top = margin + 'px';
+    card.style.maxHeight = (window.innerHeight - margin * 2) + 'px';
     card.classList.add('visible');
-    const cardH = card.offsetHeight;
-
-    const clickX = e.clientX;
-    const clickY = e.clientY;
-
-    let left = clickX + margin;
-    let top = clickY - cardH / 2;
-
-    // Don't go off right edge
-    if (left + cardW > window.innerWidth - margin) left = clickX - cardW - margin;
-    // Don't go above header
-    if (top < headerH + margin) top = headerH + margin;
-    // Don't go off bottom
-    if (top + cardH > window.innerHeight - margin) top = window.innerHeight - cardH - margin;
-    if (top < headerH + margin) top = headerH + margin;
-
-    card.style.left = left + 'px';
-    card.style.top = top + 'px';
-    card.style.right = 'auto';
   }
 
   // Логика загрузки трека перенесена в шаг 2 (внутри колбэка playChapterIntro)
