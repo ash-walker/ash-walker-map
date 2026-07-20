@@ -428,6 +428,7 @@ const map = new mapboxgl.Map({ container: 'map', style: 'mapbox://styles/mapbox/
 
  let introAudio = null;
  let outroAudio = null; // финальный монолог после Ch.18 — храним ссылку, чтобы можно было остановить
+ let finalMonologuePending = false; // true только между открытием и закрытием карточки Ch.18 — стоп-слово от повторов
 
   function monologuePathFor(ch) {
     if (ch.season !== 's1' || ch.id < 1 || ch.id > 18) return null;
@@ -449,6 +450,7 @@ const map = new mapboxgl.Map({ container: 'map', style: 'mapbox://styles/mapbox/
 
  function activateChapter(ch, e) {
    if (outroAudio) { outroAudio.pause(); outroAudio = null; } // стоп-слово для финального монолога
+   finalMonologuePending = (ch.id === 18); // взводим флаг заново только если снова открыли именно Ch.18
    const el = markerEls[ch.id];
    if (activeMarker) activeMarker.classList.remove('active');
    if (el) { el.classList.add('active'); activeMarker = el; }
@@ -650,7 +652,8 @@ function closeCard() {
   audioPlayer.src = ""; 
 
   // Если закрыли карточку 18-й главы, включаем финальный монолог
- if (currentChId === 18) {
+if (finalMonologuePending) {
+    finalMonologuePending = false; // разряжаем — повторные клики по карте больше не запустят новый слой
     if (outroAudio) { outroAudio.pause(); }
     outroAudio = new Audio('audio/mono_18.mp3');
     outroAudio.volume = 0.85;
