@@ -157,8 +157,13 @@
   #card-cover-wrap.no-link { cursor: default; }
   #card-cover-wrap.no-link #cover-yt-btn { display: none; }
 
- #card { position: fixed; z-index: 200; width: clamp(400px, 34vw, 520px); max-height: calc(100vh - 32px); background: var(--card-bg); border: 1px solid var(--border);
+ #card { position: fixed; z-index: 200; width: 400px; max-height: calc(100vh - 32px); background: var(--card-bg); border: 1px solid var(--border);
           border-radius: 16px; display: none; flex-direction: column; overflow: hidden; }
+
+ @media (min-width: 769px) and (max-width: 1500px) {
+    #card { width: 460px; }
+}
+ 
   #card.visible { display: flex; animation: slideIn 0.2s ease; }
   @keyframes slideIn {
     from { opacity: 0; transform: translateX(10px); }
