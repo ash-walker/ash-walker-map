@@ -68,18 +68,28 @@
   .legend-item { display: flex; align-items: center; gap: 9px; font-size: 11px; letter-spacing: 0.1em; color: var(--text-dim); font-family: 'Cinzel', serif; text-transform: uppercase; }
   .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 
+  /* Блок ссылок на платформы по умолчанию (ПК) */
   #platform-links {
-  position: fixed; top: calc(16.25vw + 16px); left: 24px; z-index: 100;
-  display: flex; flex-direction: column; gap: 8px;
+    position: fixed;
+    top: calc(min(16.25vw, 20vh) + 16px); /* Аккуратный отступ от низа шапки */
+    left: 20px;                         /* Красивый отступ от правого края */
+    right: auto;                          /* Сбрасываем старый left: 24px */
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;               /* Выравнивание кнопок по правому краю */
+    gap: 8px;
   }
+
   .platform-link {
     font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
     color: var(--text-dim); text-decoration: none; border: 1px solid var(--border);
     padding: 6px 14px; text-align: left; transition: border-color 0.15s, color 0.15s;
-    background: rgba(15,13,10,0.6);
+    background: rgba(15,13,10,0.8);      /* Чуть более плотный фон для читаемости */
+    backdrop-filter: blur(4px);
   }
   .platform-link:hover { border-color: var(--gold); color: var(--gold); }
-  .platform-link.disabled { opacity: 0.3; pointer-events: none; } 
+  .platform-link.disabled { opacity: 0.3; pointer-events: none; }
  
   .marker { width: 12px; height: 12px; border-radius: 50%; border: 2px solid rgba(0,0,0,0.4); cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease; }
   .marker::before { content: ''; position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; }
@@ -224,13 +234,32 @@
       overflow: hidden;
       border-radius: 0;
     }
-    /* Меньше обложка — освобождает вертикальное место под лор без скролла */
     #card-cover { aspect-ratio: 16/9; max-height: none; object-fit: cover; }
     #card-cover-placeholder { aspect-ratio: 16/9; max-height: 24vh; }
-    /* Кнопки платформ всегда в кадре, с отступом под home-indicator/жест-зону iOS */
     #card-links { padding-bottom: max(14px, env(safe-area-inset-bottom, 0px)); }
     #legend { display: none; }
-    #platform-links { display: none; }
+    
+    /* ВКЛЮЧАЕМ И НАСТРАИВАЕМ БЛОК НА МОБИЛКЕ */
+    #platform-links {
+      display: flex;
+      flex-direction: row;                /* Горизонтальная линия */
+      justify-content: center;
+      top: calc(24vw + 10px);            /* Сразу под мобильной шапкой */
+      left: 10px; right: 10px;
+      overflow-x: auto;                  /* Плавный скролл, если экран узкий */
+      white-space: nowrap;
+      gap: 6px;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .platform-link {
+      font-size: 9px;
+      padding: 5px 8px;
+      flex-shrink: 0;                    /* Чтобы кнопки не сжимались */
+      background: rgba(15,13,10,0.85);
+    }
+
     .card-link { font-size: 11px; padding: 10px 4px; }
   }
 
